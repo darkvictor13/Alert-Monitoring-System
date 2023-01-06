@@ -9,14 +9,15 @@ import * as passport from 'passport';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const sessionRepository = app.get(DataSource).getRepository(SessionEntity);
+
+  app.setGlobalPrefix('api');
+
   app.use(
     session({
-      secret: 'this is a secret',
+      secret: 'ReaLlyS3cr3tT0k3nT4tN0b0dyC4nGue55',
       resave: false,
       saveUninitialized: false,
       cookie: {
-        // 1 week
-        //maxAge: 1000 * 60 * 60 * 24 * 7,
         // 1 minute
         maxAge: 1000 * 60,
       },
@@ -27,7 +28,6 @@ async function bootstrap() {
   );
   app.use(passport.initialize());
   app.use(passport.session());
-  app.setGlobalPrefix('api');
-  await app.listen(3000);
+  await app.listen(4000);
 }
 bootstrap();

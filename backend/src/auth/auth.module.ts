@@ -1,17 +1,13 @@
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { UserService } from 'src/user/services/user.service';
-import { PasswordService } from 'src/user/services/password.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from 'src/user/entities/user.entity';
-import { LocalStrategy } from './local.strategy';
-import { SessionSerializer } from 'src/session/session.serializer';
 import { UserModule } from 'src/user/user.module';
+import { LocalStrategy } from './local.strategy';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
-  imports: [UserModule],
-  providers: [AuthService],
+  imports: [UserModule, PassportModule],
+  providers: [AuthService, LocalStrategy],
   controllers: [AuthController],
 })
 export class AuthModule {}

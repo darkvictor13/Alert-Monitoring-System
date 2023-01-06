@@ -5,7 +5,7 @@ import { UserService } from 'src/user/services/user.service';
 @Injectable()
 export class AuthService {
   constructor(
-    @Inject('UserService') private readonly userService: UserService,
+    private readonly userService: UserService,
     private readonly passwordService: PasswordService,
   ) {}
 

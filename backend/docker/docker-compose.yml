@@ -1,0 +1,14 @@
+version: '3.1'
+
+services:
+  database:
+    image: 'postgres:latest'
+    # Syntax is [port we want on our machine]:[port to retrieve in the container]
+    ports:
+      - 5432:5432
+    # Syntax is [path on our machine]:[folder path to retrieve in the container]
+    volumes:
+      - ./db-data/:/var/lib/postgresql/data/
+    env_file:
+      - .env
+    restart: "no"

@@ -18,8 +18,7 @@ async function bootstrap() {
       resave: false,
       saveUninitialized: false,
       cookie: {
-        // 1 minute
-        maxAge: 1000 * 60,
+        maxAge: 1000 * 60 * 60 * 24,
       },
       store: new TypeormStore({
         cleanupLimit: 5,

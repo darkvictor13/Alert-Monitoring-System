@@ -1,18 +1,5 @@
-.login_button {
-  background-color: #000000;
-  color: #ffffff;
-  border: 1px solid #000000;
-  border-radius: 5px;
-  padding: 10px;
-  font-size: 16px;
-  font-weight: bold;
-  width: 50%;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-.login_button:hover {
-  background-color: #ffffff;
-  color: #000000;
-  border: 1px solid #000000;
+.left_div {
+  text-align: left;
+  margin: 0;
+  padding: 0;
 }

@@ -2,8 +2,10 @@ import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "@next/font/google";
 import styles from "../styles/Home.module.css";
+import { NextPage } from "next";
 
-const HomePage = () => {
+const HomePage: NextPage = () => {
+  const isAuth = false;
   return (
     <>
       <Head>
@@ -12,7 +14,7 @@ const HomePage = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}></main>
+      <main>{isAuth ? <div>Is Logged</div> : <div>Is not Logged</div>}</main>
     </>
   );
 };

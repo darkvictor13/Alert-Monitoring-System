@@ -1,0 +1,20 @@
+.basic_button {
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  width: 50%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.basic_button:hover {
+  /* Just invert the color */
+  -webkit-filter: invert(100%);
+  filter: invert(100%);
+}
+
+.centered_div {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}

@@ -1,15 +1,23 @@
 import Head from "next/head";
 import styles from "./createUser.module.css";
-import stylesCommon from "../common.module.css";
+import stylesCommon from "../../common.module.css";
 import { NextPage } from "next";
+import Router from "next/router";
+import { ICreateUser } from "../../../types/user";
 
 const CreateUser: NextPage = () => {
+  function handleGoBack() {
+    Router.push("/");
+  }
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const payload = {
+
+    const payload: ICreateUser = {
       email: e.currentTarget.email.value,
       password: e.currentTarget.password.value,
     };
+
     const response = await fetch(process.env.NEXT_PUBLIC_HOST + "/api/user", {
       method: "POST",
       body: JSON.stringify(payload),
@@ -17,6 +25,12 @@ const CreateUser: NextPage = () => {
         "Content-Type": "application/json",
       },
     });
+
+    if (!response.ok) {
+      Router.push("/error");
+    } else {
+      Router.push("/users");
+    }
   }
 
   return (
@@ -34,16 +48,22 @@ const CreateUser: NextPage = () => {
             </div>
             <div>
               <label htmlFor="password">Password</label>
-              <input type="password" name="password" id="password" required />
+              <input
+                type="password"
+                name="password"
+                id="password"
+                required
+                minLength={4}
+              />
             </div>
           </div>
           <button className={stylesCommon.basic_button} type="submit">
-            Sing In
-          </button>
-          <button className={stylesCommon.basic_button} type="submit">
-            Go Back
+            Create User
           </button>
         </form>
+        <button className={stylesCommon.basic_button} onClick={handleGoBack}>
+          Go Back
+        </button>
       </div>
     </>
   );

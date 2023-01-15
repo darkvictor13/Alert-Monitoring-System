@@ -3,7 +3,7 @@ import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
 @Entity()
 @Unique(['firstName', 'lastName'])
 export class User {
-  @PrimaryGeneratedColumn({ type: 'int' })
+  @PrimaryGeneratedColumn({ type: 'int', name: 'user_id' })
   id: number;
 
   @Column({ nullable: false, unique: true })

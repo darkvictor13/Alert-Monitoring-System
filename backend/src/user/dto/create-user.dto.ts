@@ -20,4 +20,12 @@ export class CreateUserDto {
     minSymbols: 0,
   })
   password: string;
+
+  @IsNotEmpty()
+  @IsString()
+  firstName: string;
+
+  @IsNotEmpty()
+  @IsString()
+  lastName: string;
 }

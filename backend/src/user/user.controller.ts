@@ -15,6 +15,8 @@ import { UserService } from './services/user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthenticationGuard } from 'src/auth/guards/authentication.guard';
+import { plainToInstance } from 'class-transformer';
+import { SerializedUser } from './user.serialized';
 
 @Controller('user')
 //@UseGuards(AuthenticationGuard)
@@ -24,12 +26,15 @@ export class UserController {
   @Post()
   @UsePipes(ValidationPipe)
   create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+    return plainToInstance(
+      SerializedUser,
+      this.userService.create(createUserDto),
+    );
   }
 
   @Get()
   findAll() {
-    return this.userService.findAll();
+    return plainToInstance(SerializedUser, this.userService.findAll());
   }
 
   @Get(':id')

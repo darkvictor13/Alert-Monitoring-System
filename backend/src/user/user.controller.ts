@@ -39,7 +39,7 @@ export class UserController {
 
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.userService.findOneById(id);
+    return plainToInstance(SerializedUser, this.userService.findOneById(id));
   }
 
   @Patch(':id')

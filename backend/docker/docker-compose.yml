@@ -1,6 +1,13 @@
 version: '3.1'
 
 services:
+  mosquitto:
+    restart: "no"
+    image: eclipse-mosquitto
+    ports:
+      - 1883:1883
+    volumes:
+      - ./mosquitto:/mosquitto/config
   database:
     image: 'postgres:latest'
     # Syntax is [port we want on our machine]:[port to retrieve in the container]
@@ -11,4 +18,13 @@ services:
       - ./db-data/:/var/lib/postgresql/data/
     env_file:
       - .env
+    restart: "no"
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - 5050:80
+    env_file:
+      - .env
+    depends_on:
+      - database
     restart: "no"

@@ -1,1 +1,3 @@
 ./db-data
+./mosquitto/data
+./mosquitto/log

@@ -12,6 +12,15 @@ async function bootstrap() {
       origin: process.env.CORS_ORIGIN,
     },
   });
+  /*
+  const app = await NestFactory.createMicroservice(AppModule, {
+    transport: Transport.MQTT,
+    options: {
+      url: 'mqtt://localhost:1883',
+    },
+  });
+  */
+
   const sessionRepository = app.get(DataSource).getRepository(SessionEntity);
 
   app.setGlobalPrefix('api');
@@ -33,4 +42,5 @@ async function bootstrap() {
   app.use(passport.session());
   await app.listen(4000);
 }
+
 bootstrap();

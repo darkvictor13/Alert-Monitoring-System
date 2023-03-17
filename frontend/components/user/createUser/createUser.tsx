@@ -4,8 +4,20 @@ import stylesCommon from "../../common.module.css";
 import { NextPage } from "next";
 import Router from "next/router";
 import { ICreateUser } from "../../../types/user";
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { Cancel, Edit } from "@mui/icons-material";
+import MuiPhoneNumber from "material-ui-phone-number";
+import { useState } from "react";
 
 const CreateUser: NextPage = () => {
+  const [phone, setPhone] = useState("");
   function handleGoBack() {
     Router.push("/");
   }
@@ -13,9 +25,10 @@ const CreateUser: NextPage = () => {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
+    const formData = new FormData(e.currentTarget);
     const payload: ICreateUser = {
-      email: e.currentTarget.email.value,
-      password: e.currentTarget.password.value,
+      email: formData.get("email") as string,
+      password: formData.get("password") as string,
     };
 
     const response = await fetch(process.env.NEXT_PUBLIC_HOST + "/api/user", {
@@ -38,33 +51,102 @@ const CreateUser: NextPage = () => {
       <Head>
         <title>Sing In</title>
       </Head>
-      <div className={stylesCommon.centered_div}>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <h1 className={styles.title_h1}>Sing In</h1>
-            <div>
-              <label htmlFor="email">Email</label>
-              <input type="email" name="email" id="email" required />
-            </div>
-            <div>
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                name="password"
-                id="password"
+      <Container component="main" maxWidth="md">
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            textAlign: "center",
+            marginTop: "10%",
+          }}
+        >
+          <Typography component="h1" variant="h5">
+            Sign Up
+          </Typography>
+          <Box component="form" onSubmit={handleSubmit}>
+            <Box sx={{ display: "flex", flexDirection: "row" }}>
+              <TextField
+                margin="normal"
                 required
-                minLength={4}
+                fullWidth
+                name="firstName"
+                label="First name"
+                type="text"
+                id="firstName"
+                autoComplete="current-firstName"
               />
-            </div>
-          </div>
-          <button className={stylesCommon.basic_button} type="submit">
-            Create User
-          </button>
-        </form>
-        <button className={stylesCommon.basic_button} onClick={handleGoBack}>
-          Go Back
-        </button>
-      </div>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="lastName"
+                label="Last name"
+                type="text"
+                id="lastName"
+                autoComplete="current-lastName"
+              />
+            </Box>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+            />
+            <Box sx={{ display: "flex", flexDirection: "row" }}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="confirm password"
+                label="Confirm Password"
+                type="password"
+                id="confirmPassword"
+                autoComplete="current-password"
+              />
+            </Box>
+            <MuiPhoneNumber
+              defaultCountry={"br"}
+              value={phone}
+              onChange={(e) => setPhone(e.toString())}
+            />
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              mt: 6,
+              justifyContent: "space-evenly",
+            }}
+          >
+            <Button startIcon={<Edit />} type="submit" variant="contained">
+              Sign Up
+            </Button>
+            <Button
+              startIcon={<Cancel />}
+              type="button"
+              href="/"
+              variant="contained"
+            >
+              Cancel
+            </Button>
+          </Box>
+        </Box>
+      </Container>
     </>
   );
 };

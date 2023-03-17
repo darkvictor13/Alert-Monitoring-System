@@ -15,14 +15,28 @@ export class UserService {
 
   async create(createUserDto: CreateUserDto) {
     // check if user already exists
-    const { email, firstName, lastName } = createUserDto;
+    const { email, firstName, lastName, telegramId, phoneNumber } =
+      createUserDto;
     const existingUser = await this.userRepository.findOne({
-      where: [{ email }, { firstName, lastName }],
+      where: [
+        { email },
+        { telegramId },
+        { phoneNumber },
+        { firstName, lastName },
+      ],
     });
     // if user exists, throw an error
     if (existingUser) {
       if (existingUser.email === email) {
         throw new BadRequestException('An user with this email already exists');
+      } else if (existingUser.telegramId === telegramId) {
+        throw new BadRequestException(
+          'An user with this telegramId already exists',
+        );
+      } else if (existingUser.phoneNumber === phoneNumber) {
+        throw new BadRequestException(
+          'An user with this phoneNumber already exists',
+        );
       }
       throw new BadRequestException('An user with this name already exists');
     }

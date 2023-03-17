@@ -2,7 +2,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToOne,
   PrimaryGeneratedColumn,
   Unique,
   UpdateDateColumn,
@@ -25,6 +24,12 @@ export class User {
 
   @Column({ nullable: false, name: 'last_name' })
   lastName: string;
+
+  @Column({ nullable: true, name: 'phone_number', unique: true })
+  phoneNumber: string;
+
+  @Column({ nullable: true, name: 'telegram_id', unique: true })
+  telegramId: string;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

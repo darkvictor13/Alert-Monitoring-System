@@ -3,7 +3,7 @@ import styles from "./createUser.module.css";
 import stylesCommon from "../../common.module.css";
 import { NextPage } from "next";
 import Router from "next/router";
-import { ICreateUser } from "../../../types/user";
+import { ICreateUser } from "../../../../types/user";
 import {
   Box,
   Button,
@@ -15,34 +15,34 @@ import {
 import { Cancel, Edit } from "@mui/icons-material";
 import MuiPhoneNumber from "material-ui-phone-number";
 import { useState } from "react";
+import backendApi from "../../../lib/axios/backend_api";
 
 const CreateUser: NextPage = () => {
   const [phone, setPhone] = useState("");
-  function handleGoBack() {
-    Router.push("/");
-  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    console.log("submit");
 
     const formData = new FormData(e.currentTarget);
     const payload: ICreateUser = {
       email: formData.get("email") as string,
       password: formData.get("password") as string,
+      firstName: formData.get("firstName") as string,
+      lastName: formData.get("lastName") as string,
     };
+    if (phone) {
+      payload.phoneNumber = phone;
+    }
 
-    const response = await fetch(process.env.NEXT_PUBLIC_HOST + "/api/user", {
-      method: "POST",
-      body: JSON.stringify(payload),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      Router.push("/error");
-    } else {
+    const response = await backendApi.post<ICreateUser>(
+      "/user",
+      JSON.stringify(payload)
+    );
+    if (response.status >= 200 && response.status < 300) {
       Router.push("/users");
+    } else {
+      Router.push("/error");
     }
   }
 
@@ -124,26 +124,26 @@ const CreateUser: NextPage = () => {
               value={phone}
               onChange={(e) => setPhone(e.toString())}
             />
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              mt: 6,
-              justifyContent: "space-evenly",
-            }}
-          >
-            <Button startIcon={<Edit />} type="submit" variant="contained">
-              Sign Up
-            </Button>
-            <Button
-              startIcon={<Cancel />}
-              type="button"
-              href="/"
-              variant="contained"
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                mt: 6,
+                justifyContent: "space-evenly",
+              }}
             >
-              Cancel
-            </Button>
+              <Button startIcon={<Edit />} type="submit" variant="contained">
+                Sign Up
+              </Button>
+              <Button
+                startIcon={<Cancel />}
+                type="button"
+                href="/"
+                variant="contained"
+              >
+                Cancel
+              </Button>
+            </Box>
           </Box>
         </Box>
       </Container>

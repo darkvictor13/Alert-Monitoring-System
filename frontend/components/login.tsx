@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { ILogin } from "../types/login";
+import { ILogin } from "../../types/login";
 import Router from "next/router";
 import {
   Container,
@@ -14,9 +14,11 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Link from "next/link";
+import backendApi from "../lib/axios/backend_api";
 
 const Login: NextPage = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    console.log("submit");
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const payload: ILogin = {
@@ -24,21 +26,16 @@ const Login: NextPage = () => {
       password: formData.get("password") as string,
     };
 
-    const response = await fetch(
-      process.env.NEXT_PUBLIC_HOST + "/api/auth/login",
-      {
-        method: "POST",
-        body: JSON.stringify(payload),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    if (!response.ok) {
-      Router.push("/error");
-    } else {
-      Router.push("/");
+    const response = await backendApi.post<ILogin>("/auth/login", payload);
+    // set cookies from document.cookie
+    //backendApi.defaults.headers.Cookie = document.cookie;
+    /*
+    console.log("cookies", document.cookie);
+    console.log("set-cookie", response.headers["set-cookie"]?.[0]);
+    console.log("response", response);
+    */
+    if (response.status >= 200 && response.status < 300) {
+      Router.push("/users");
     }
   };
 

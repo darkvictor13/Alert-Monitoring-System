@@ -1,11 +1,14 @@
 import { NextPage } from "next";
 import Head from "next/head";
 import ShowUser from "../components/user/showUser/showUser";
-import { IUser } from "../types/user";
+import { IUser } from "../../types/user";
+import backendApi from "../lib/axios/backend_api";
 
 export async function getServerSideProps() {
-  const response = await fetch(process.env.NEXT_PUBLIC_HOST + "/api/user");
-  if (!response.ok) {
+  const response = await backendApi.get<IUser[]>("/user", {
+    withCredentials: true,
+  });
+  if (response.status >= 400) {
     return {
       redirect: {
         destination: "/error",
@@ -13,10 +16,9 @@ export async function getServerSideProps() {
       },
     };
   }
-  const users: IUser[] = await response.json();
   return {
     props: {
-      users,
+      users: response.data,
     },
   };
 }

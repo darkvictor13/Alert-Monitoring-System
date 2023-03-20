@@ -17,9 +17,9 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthenticationGuard } from 'src/auth/guards/authentication.guard';
 import { plainToInstance } from 'class-transformer';
 import { SerializedUser } from './user.serialized';
+import { ISerializedUser } from '../../../types/user';
 
 @Controller('user')
-//@UseGuards(AuthenticationGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -33,16 +33,19 @@ export class UserController {
   }
 
   @Get()
+  @UseGuards(AuthenticationGuard)
   findAll() {
     return plainToInstance(SerializedUser, this.userService.findAll());
   }
 
   @Get(':id')
+  @UseGuards(AuthenticationGuard)
   findOne(@Param('id', ParseIntPipe) id: number) {
     return plainToInstance(SerializedUser, this.userService.findOneById(id));
   }
 
   @Patch(':id')
+  @UseGuards(AuthenticationGuard)
   @UsePipes(ValidationPipe)
   update(
     @Param('id', ParseIntPipe) id: number,
@@ -52,6 +55,7 @@ export class UserController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthenticationGuard)
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.userService.remove(id);
   }

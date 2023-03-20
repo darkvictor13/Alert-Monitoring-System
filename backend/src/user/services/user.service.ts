@@ -13,7 +13,7 @@ export class UserService {
     private readonly passwordService: PasswordService,
   ) {}
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto): Promise<User> {
     // check if user already exists
     const { email, firstName, lastName, telegramId, phoneNumber } =
       createUserDto;
@@ -49,31 +49,31 @@ export class UserService {
     return this.userRepository.save(newUser);
   }
 
-  findAll() {
+  findAll(): Promise<User[]> {
     return this.userRepository.find();
   }
 
-  findOneById(id: number) {
+  findOneById(id: number): Promise<User> {
     return this.userRepository.findOne({ where: { id } });
   }
 
-  findOneByEmail(email: string) {
+  findOneByEmail(email: string): Promise<User> {
     return this.userRepository.findOne({ where: { email } });
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<boolean> {
     const user = await this.findOneById(id);
     if (!user) {
       throw new BadRequestException('User not found');
     }
-    return this.userRepository.update(id, updateUserDto);
+    return (await this.userRepository.update(id, updateUserDto)).affected === 1;
   }
 
-  async remove(id: number) {
+  async remove(id: number): Promise<boolean> {
     const user = await this.findOneById(id);
     if (!user) {
       throw new BadRequestException('User not found');
     }
-    return this.userRepository.delete(id);
+    return (await this.userRepository.delete(id)).affected === 1;
   }
 }

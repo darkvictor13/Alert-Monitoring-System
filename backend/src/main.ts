@@ -5,11 +5,13 @@ import { SessionEntity } from './session/session.entity';
 import { TypeormStore } from 'connect-typeorm';
 import * as session from 'express-session';
 import * as passport from 'passport';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     cors: {
       origin: process.env.CORS_ORIGIN,
+      credentials: true,
     },
   });
   /*
@@ -22,16 +24,18 @@ async function bootstrap() {
   */
 
   const sessionRepository = app.get(DataSource).getRepository(SessionEntity);
+  const configService = app.get(ConfigService);
 
   app.setGlobalPrefix('api');
 
   app.use(
     session({
-      secret: 'ReaLlyS3cr3tT0k3nT4tN0b0dyC4nGue55',
+      secret: configService.get<string>('SESSION_SECRET'),
       resave: false,
       saveUninitialized: false,
       cookie: {
         maxAge: 1000 * 60 * 60 * 24,
+        httpOnly: false,
       },
       store: new TypeormStore({
         cleanupLimit: 5,

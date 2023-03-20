@@ -3,27 +3,18 @@ import Head from "next/head";
 import ShowUser from "../components/user/showUser/showUser";
 import { IUser } from "../../types/user";
 import backendApi from "../lib/axios/backend_api";
+import { useEffect, useState } from "react";
 
-export async function getServerSideProps() {
-  const response = await backendApi.get<IUser[]>("/user", {
-    withCredentials: true,
-  });
-  if (response.status >= 400) {
-    return {
-      redirect: {
-        destination: "/error",
-        permanent: false,
-      },
+const Users: NextPage = () => {
+  const [users, setUsers] = useState<IUser[]>([]);
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const response = await backendApi.get<IUser[]>("/user");
+      setUsers(response.data);
     };
-  }
-  return {
-    props: {
-      users: response.data,
-    },
-  };
-}
+    fetchUsers();
+  }, []);
 
-const Users: NextPage<{ users: IUser[] }> = ({ users }) => {
   return (
     <>
       <Head>

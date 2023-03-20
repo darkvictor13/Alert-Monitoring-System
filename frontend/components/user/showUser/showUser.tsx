@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { IUser } from "../../../types/user";
+import { IUser } from "../../../../types/user";
 
 const ShowUser: NextPage<{ user: IUser }> = ({ user }) => {
   return (

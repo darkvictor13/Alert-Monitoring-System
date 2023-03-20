@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { DataSource } from 'typeorm';
+import { DataSource, LessThanOrEqual } from 'typeorm';
 import { AppModule } from './app.module';
 import { SessionEntity } from './session/session.entity';
 import { TypeormStore } from 'connect-typeorm';
@@ -26,6 +26,13 @@ async function bootstrap() {
   const sessionRepository = app.get(DataSource).getRepository(SessionEntity);
   const configService = app.get(ConfigService);
 
+  await sessionRepository.delete({
+    expiredAt: LessThanOrEqual(Date.now()),
+  });
+
+  // delete all sessions
+  //await sessionRepository.delete({});
+
   app.setGlobalPrefix('api');
 
   app.use(
@@ -44,6 +51,7 @@ async function bootstrap() {
   );
   app.use(passport.initialize());
   app.use(passport.session());
+
   await app.listen(4000);
 }
 

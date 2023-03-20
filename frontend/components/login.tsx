@@ -26,14 +26,11 @@ const Login: NextPage = () => {
       password: formData.get("password") as string,
     };
 
+    console.log("payload", payload);
+
     const response = await backendApi.post<ILogin>("/auth/login", payload);
     // set cookies from document.cookie
     //backendApi.defaults.headers.Cookie = document.cookie;
-    /*
-    console.log("cookies", document.cookie);
-    console.log("set-cookie", response.headers["set-cookie"]?.[0]);
-    console.log("response", response);
-    */
     if (response.status >= 200 && response.status < 300) {
       Router.push("/users");
     }

@@ -5,8 +5,11 @@ import { MqttService, Payload, Subscribe } from 'nest-mqtt';
 export class MqttIntegrationService {
   constructor(@Inject(MqttService) private readonly mqttService: MqttService) {}
 
-  @Subscribe('test')
-  test(@Payload() payload: any) {
+  @Subscribe({
+    topic: 'topic',
+    transform: 'text',
+  })
+  test(@Payload() payload: string) {
     console.log(payload);
   }
 

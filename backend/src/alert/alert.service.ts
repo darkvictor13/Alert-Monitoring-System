@@ -1,5 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { TelegramService } from 'nestjs-telegram';
+import {
+  TelegramMessage,
+  TelegramService,
+  TelegramUser,
+} from 'nestjs-telegram';
 
 // to send a message to my bot
 // https://telegram.me/backend_alert_bot?sendmessage=Hello+World
@@ -7,16 +11,13 @@ import { TelegramService } from 'nestjs-telegram';
 export class AlertService {
   constructor(private readonly telegram: TelegramService) {}
 
-  getMe() {
+  getMe(): Promise<TelegramUser> {
     return this.telegram.getMe().toPromise();
   }
 
-  sendAlert() {
+  sendAlert(sendToChatId: string, message: string): Promise<TelegramMessage> {
     return this.telegram
-      .sendMessage({
-        chat_id: '5725062195',
-        text: 'Hello World',
-      })
+      .sendMessage({ chat_id: sendToChatId, text: message })
       .toPromise();
   }
 }

@@ -12,6 +12,6 @@ export class AlertController {
 
   @Get('send')
   send() {
-    return this.alertService.sendAlert();
+    return this.alertService.sendAlert('5725062195', 'hi');
   }
 }

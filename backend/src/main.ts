@@ -6,6 +6,7 @@ import { TypeormStore } from 'connect-typeorm';
 import * as session from 'express-session';
 import * as passport from 'passport';
 import { ConfigService } from '@nestjs/config';
+import { Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -16,6 +17,12 @@ async function bootstrap() {
   });
   /*
   const app = await NestFactory.createMicroservice(AppModule, {
+    transport: Transport.MQTT,
+    options: {
+      url: 'mqtt://localhost:1883',
+    },
+  });
+  app.connectMicroservice({
     transport: Transport.MQTT,
     options: {
       url: 'mqtt://localhost:1883',

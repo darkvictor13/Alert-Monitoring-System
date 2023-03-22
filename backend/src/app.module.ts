@@ -5,6 +5,8 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { DeviceModule } from './device/device.module';
 import { AlertModule } from './alert/alert.module';
+import { MqttIntegrationModule } from './mqtt_integration/mqtt_integration.module';
+import { MqttModule } from 'nest-mqtt';
 
 @Module({
   imports: [
@@ -23,10 +25,16 @@ import { AlertModule } from './alert/alert.module';
       //autoLoadEntities: true,
       synchronize: process.env.DB_SYNCHRONIZE.toLowerCase() === 'true',
     }),
+    MqttModule.forRoot({
+      host: process.env.MQTT_HOST,
+      port: parseInt(process.env.MQTT_PORT, 10),
+      protocol: 'mqtt',
+    }),
     UserModule,
     AuthModule,
     DeviceModule,
     AlertModule,
+    MqttIntegrationModule,
   ],
   controllers: [],
   providers: [],

@@ -29,8 +29,6 @@ const Login: NextPage = () => {
     console.log("payload", payload);
 
     const response = await backendApi.post<ILogin>("/auth/login", payload);
-    // set cookies from document.cookie
-    //backendApi.defaults.headers.Cookie = document.cookie;
     if (response.status >= 200 && response.status < 300) {
       Router.push("/users");
     }

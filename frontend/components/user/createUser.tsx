@@ -3,8 +3,9 @@ import styles from "./createUser.module.css";
 import stylesCommon from "../../common.module.css";
 import { NextPage } from "next";
 import Router from "next/router";
-import { ICreateUser } from "../../../../types/user";
+import { ICreateUser } from "../../../types/user";
 import {
+  Avatar,
   Box,
   Button,
   Container,
@@ -12,10 +13,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Cancel, Edit } from "@mui/icons-material";
 import MuiPhoneNumber from "material-ui-phone-number";
 import { useState } from "react";
-import backendApi from "../../../lib/axios/backend_api";
+import backendApi from "../../lib/axios/backend_api";
 
 const CreateUser: NextPage = () => {
   const [phone, setPhone] = useState("");
@@ -61,6 +63,9 @@ const CreateUser: NextPage = () => {
             marginTop: "10%",
           }}
         >
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+            <LockOutlinedIcon />
+          </Avatar>
           <Typography component="h1" variant="h5">
             Sign Up
           </Typography>

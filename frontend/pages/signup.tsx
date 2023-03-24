@@ -1,3 +1,3 @@
-import CreateUser from "../components/user/createUser/createUser";
+import CreateUser from "../components/user/createUser";
 
 export default CreateUser;

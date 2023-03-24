@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import Head from "next/head";
-import ShowUser from "../components/user/showUser/showUser";
+import ShowUser from "../components/user/showUser";
 import { IUser } from "../../types/user";
 import backendApi from "../lib/axios/backend_api";
 import { useEffect, useState } from "react";

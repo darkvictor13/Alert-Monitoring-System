@@ -1,12 +1,11 @@
 import Head from "next/head";
 import Image from "next/image";
-import { Inter } from "@next/font/google";
-import styles from "../styles/Home.module.css";
 import { NextPage } from "next";
 import { Container } from "@mui/material";
+import { useAuth } from "../hooks/useAuth";
 
 const HomePage: NextPage = () => {
-  const isAuth = false;
+  const isAuth = useAuth();
   return (
     <>
       <Head>

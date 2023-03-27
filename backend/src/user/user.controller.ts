@@ -10,6 +10,7 @@ import {
   ValidationPipe,
   ParseIntPipe,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { UserService } from './services/user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -34,7 +35,13 @@ export class UserController {
 
   @Get()
   @UseGuards(AuthenticationGuard)
-  findAll() {
+  findAll(@Query('email') email: string) {
+    if (email) {
+      return plainToInstance(
+        SerializedUser,
+        this.userService.findOneByEmail(email),
+      );
+    }
     return plainToInstance(SerializedUser, this.userService.findAll());
   }
 

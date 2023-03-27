@@ -1,0 +1,33 @@
+import { Copyright, Link } from "@mui/icons-material";
+import { Box, Container, Typography } from "@mui/material";
+import { NextPage } from "next";
+
+const StickyFooter: NextPage = () => {
+  return (
+    <Box
+      component="footer"
+      sx={{
+        py: 3,
+        px: 2,
+        mt: "auto",
+        backgroundColor: (theme) =>
+          theme.palette.mode === "light"
+            ? theme.palette.grey[200]
+            : theme.palette.grey[800],
+      }}
+    >
+      <Container maxWidth="sm">
+        <Typography variant="body1">
+          My sticky footer can be found here.
+        </Typography>
+        <Typography variant="body1">
+          <Copyright />
+          {new Date().getFullYear()}
+          {"Victor Almeida."}
+        </Typography>
+      </Container>
+    </Box>
+  );
+};
+
+export default StickyFooter;

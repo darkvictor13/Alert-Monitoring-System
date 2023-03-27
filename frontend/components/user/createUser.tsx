@@ -18,6 +18,7 @@ import { Cancel, Edit } from "@mui/icons-material";
 import MuiPhoneNumber from "material-ui-phone-number";
 import { useState } from "react";
 import backendApi from "../../lib/axios/backend_api";
+import { login } from "../../lib/auth";
 
 const CreateUser: NextPage = () => {
   const [phone, setPhone] = useState("");
@@ -27,9 +28,11 @@ const CreateUser: NextPage = () => {
     console.log("submit");
 
     const formData = new FormData(e.currentTarget);
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
     const payload: ICreateUser = {
-      email: formData.get("email") as string,
-      password: formData.get("password") as string,
+      email,
+      password,
       firstName: formData.get("firstName") as string,
       lastName: formData.get("lastName") as string,
     };
@@ -37,15 +40,8 @@ const CreateUser: NextPage = () => {
       payload.phoneNumber = phone;
     }
 
-    const response = await backendApi.post<ICreateUser>(
-      "/user",
-      JSON.stringify(payload)
-    );
-    if (response.status >= 200 && response.status < 300) {
-      Router.push("/users");
-    } else {
-      Router.push("/error");
-    }
+    await backendApi.post<ICreateUser>("/user", JSON.stringify(payload));
+    await login({ email, password });
   }
 
   return (

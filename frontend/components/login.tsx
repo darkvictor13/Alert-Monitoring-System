@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import { ILogin } from "../../types/login";
 import Router from "next/router";
 import {
   Container,
@@ -14,24 +13,19 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Link from "next/link";
-import backendApi from "../lib/axios/backend_api";
+import { login } from "../lib/auth";
 
 const Login: NextPage = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    console.log("submit");
     event.preventDefault();
+
     const formData = new FormData(event.currentTarget);
-    const payload: ILogin = {
+    const user = await login({
       email: formData.get("email") as string,
       password: formData.get("password") as string,
-    };
+    });
 
-    console.log("payload", payload);
-
-    const response = await backendApi.post<ILogin>("/auth/login", payload);
-    if (response.status >= 200 && response.status < 300) {
-      Router.push("/users");
-    }
+    Router.push(`/${user.id}/test`);
   };
 
   return (

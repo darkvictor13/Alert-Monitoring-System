@@ -8,13 +8,13 @@ import {
 
 @Entity()
 export class Device {
-  @PrimaryGeneratedColumn({ type: 'int', name: 'device_id' })
-  id: number;
+  @PrimaryGeneratedColumn('uuid', { name: 'device_uuid' })
+  uuid: string;
 
   /**
    * The name of the device, set by the user.
    */
-  @Column({ name: 'device_name', nullable: false })
+  @Column({ name: 'device_name', nullable: true })
   name: string;
 
   @CreateDateColumn({ name: 'created_at' })

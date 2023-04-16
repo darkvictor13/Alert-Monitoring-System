@@ -26,23 +26,27 @@ export class DeviceController {
   }
 
   @Get()
-  @UseGuards(DeviceGuard)
+  //@UseGuards(DeviceGuard)
   findAll() {
     return this.deviceService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.deviceService.findOne(+id);
+  @Get(':uuid')
+  findOneByUuid(@Param('uuid') uuid: string) {
+    return this.deviceService.findOneByUuid(uuid);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDeviceDto: UpdateDeviceDto) {
-    return this.deviceService.update(+id, updateDeviceDto);
+  @Patch(':uuid')
+  @UsePipes(ValidationPipe)
+  update(
+    @Param('uuid') uuid: string,
+    @Body() updateDeviceDto: UpdateDeviceDto,
+  ) {
+    return this.deviceService.update(uuid, updateDeviceDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.deviceService.remove(+id);
+  @Delete(':uuid')
+  remove(@Param('uuid') uuid: string) {
+    return this.deviceService.remove(uuid);
   }
 }

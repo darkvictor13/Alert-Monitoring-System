@@ -13,21 +13,24 @@ export class DeviceService {
   ) {}
   create(createDeviceDto: CreateDeviceDto) {
     this.logger.log('Creating device');
+    return this.deviceRepository.save(createDeviceDto);
   }
 
   findAll() {
+    this.logger.log('Finding all devices');
     return this.deviceRepository.find();
   }
 
-  findOne(id: number) {
-    return this.deviceRepository.findOne({ where: { id } });
+  findOneByUuid(uuid: string) {
+    this.logger.log(`Finding device with id ${uuid}`);
+    return this.deviceRepository.findOne({ where: { uuid } });
   }
 
-  update(id: number, updateDeviceDto: UpdateDeviceDto) {
+  update(id: string, updateDeviceDto: UpdateDeviceDto) {
     this.logger.log(`Updating device with id ${id}`);
   }
 
-  remove(id: number) {
+  remove(id: string) {
     this.logger.log(`Removing device with id ${id}`);
   }
 }

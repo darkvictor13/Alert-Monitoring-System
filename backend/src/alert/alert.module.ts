@@ -1,20 +1,12 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TelegramModule } from 'nestjs-telegram';
-import { AlertController } from './alert.controller';
 import { AlertService } from './alert.service';
+import { AlertController } from './alert.controller';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Alert } from './entities/alert.entity';
 
 @Module({
-  imports: [
-    TelegramModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        botKey: configService.get('TELEGRAM_BOT_TOKEN'),
-      }),
-      inject: [ConfigService],
-    }),
-  ],
+  imports: [TypeOrmModule.forFeature([Alert])],
   controllers: [AlertController],
-  providers: [AlertService, TelegramModule],
+  providers: [AlertService],
 })
 export class AlertModule {}

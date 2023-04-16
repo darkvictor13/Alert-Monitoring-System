@@ -41,6 +41,7 @@ const TopTab: NextPage = () => {
           justifyContent: "flex-end",
         }}
       >
+        <MenuItem>Home</MenuItem>
         <Typography sx={{ minWidth: 100 }}>Contact</Typography>
         <Typography sx={{ minWidth: 100 }}>Profile</Typography>
         <Tooltip title="Account settings">

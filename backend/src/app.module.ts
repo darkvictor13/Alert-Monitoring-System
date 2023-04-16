@@ -4,11 +4,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { DeviceModule } from './device/device.module';
-import { AlertModule } from './alert/alert.module';
+import { NotifyModule } from './notify/notify.module';
 import { MqttIntegrationModule } from './mqtt_integration/mqtt_integration.module';
 import { MqttModule } from 'nest-mqtt';
 import { TelegrafModule } from 'nestjs-telegraf';
 import { TelegramBotModule } from './telegram_bot/telegram_bot.module';
+import { AlertModule } from './alert/alert.module';
 
 @Module({
   imports: [
@@ -41,9 +42,10 @@ import { TelegramBotModule } from './telegram_bot/telegram_bot.module';
     UserModule,
     AuthModule,
     DeviceModule,
-    AlertModule,
+    NotifyModule,
     MqttIntegrationModule,
     TelegramBotModule,
+    AlertModule,
   ],
   controllers: [],
   providers: [],

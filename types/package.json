@@ -1,0 +1,10 @@
+{
+  "name": "types",
+  "version": "0.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Interface only package\" && exit 0",
+    "build": "tsc"
+  },
+  "license": "MIT"
+}

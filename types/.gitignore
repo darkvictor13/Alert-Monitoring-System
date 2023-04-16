@@ -1,1 +1,3 @@
-*.js*
+*.js
+!package.json
+!tsconfig.json

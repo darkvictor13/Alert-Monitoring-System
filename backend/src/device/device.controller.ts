@@ -26,7 +26,7 @@ export class DeviceController {
   }
 
   @Get()
-  //@UseGuards(DeviceGuard)
+  @UseGuards(DeviceGuard)
   findAll() {
     return this.deviceService.findAll();
   }

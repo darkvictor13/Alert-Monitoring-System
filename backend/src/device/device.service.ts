@@ -28,6 +28,7 @@ export class DeviceService {
 
   update(id: string, updateDeviceDto: UpdateDeviceDto) {
     this.logger.log(`Updating device with id ${id}`);
+    return this.deviceRepository.update(id, updateDeviceDto);
   }
 
   remove(id: string) {

@@ -9,7 +9,9 @@ describe('MqttIntegrationController', () => {
       controllers: [MqttIntegrationController],
     }).compile();
 
-    controller = module.get<MqttIntegrationController>(MqttIntegrationController);
+    controller = module.get<MqttIntegrationController>(
+      MqttIntegrationController,
+    );
   });
 
   it('should be defined', () => {

@@ -12,6 +12,8 @@ export function logout() {
 
 export async function login(login: ILogin) {
   console.log("login", login);
+  console.log("backendApi", backendApi);
+  console.log("uri", backendApi.getUri());
   await backendApi.post<ILogin>("/auth/login", login);
   console.log("login success");
   const { data } = await backendApi.get<ISerializedUser>("/user", {

@@ -1,7 +1,9 @@
+import { User } from 'src/user/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -10,6 +12,9 @@ import {
 export class Device {
   @PrimaryGeneratedColumn('uuid', { name: 'device_uuid' })
   uuid: string;
+
+  @ManyToOne(() => User, (user) => user.devices)
+  user: User;
 
   /**
    * The name of the device, set by the user.

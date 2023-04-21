@@ -16,22 +16,31 @@ export class DeviceService {
     return this.deviceRepository.save(createDeviceDto);
   }
 
-  findAll() {
+  findAll(): Promise<Device[]> {
     this.logger.log('Finding all devices');
     return this.deviceRepository.find();
   }
 
-  findOneByUuid(uuid: string) {
+  findOneByUuid(uuid: string): Promise<Device> {
     this.logger.log(`Finding device with id ${uuid}`);
     return this.deviceRepository.findOne({ where: { uuid } });
   }
 
-  update(id: string, updateDeviceDto: UpdateDeviceDto) {
+  async update(id: string, updateDeviceDto: UpdateDeviceDto): Promise<void> {
     this.logger.log(`Updating device with id ${id}`);
-    return this.deviceRepository.update(id, updateDeviceDto);
+    const device = this.findOneByUuid(id);
+    if (!device) {
+      throw new Error('Device not found');
+    }
+    await this.deviceRepository.update(id, updateDeviceDto);
   }
 
-  remove(id: string) {
+  async remove(id: string): Promise<void> {
     this.logger.log(`Removing device with id ${id}`);
+    const device = this.findOneByUuid(id);
+    if (!device) {
+      throw new Error('Device not found');
+    }
+    await this.deviceRepository.delete(id);
   }
 }

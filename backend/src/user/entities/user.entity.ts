@@ -1,7 +1,9 @@
+import { Device } from 'src/device/entities/device.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   Unique,
   UpdateDateColumn,
@@ -12,6 +14,9 @@ import {
 export class User {
   @PrimaryGeneratedColumn({ type: 'int', name: 'user_id' })
   id: number;
+
+  @OneToMany(() => Device, (device) => device.user)
+  devices: Device[];
 
   @Column({ nullable: false, unique: true })
   email: string;

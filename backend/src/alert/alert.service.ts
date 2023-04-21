@@ -14,7 +14,7 @@ export class AlertService {
     private readonly deviceService: DeviceService,
   ) {}
 
-  async create(createAlertDto: CreateAlertDto): Promise<Alert> {
+  async create(createAlertDto: CreateAlertDto): Promise<number> {
     this.logger.log('Creating alert');
     const device = await this.deviceService.findOneByUuid(
       createAlertDto.deviceUuid,
@@ -26,7 +26,7 @@ export class AlertService {
       ...createAlertDto,
       device,
     });
-    return this.alertRepository.save(alert);
+    return (await this.alertRepository.save(alert)).id;
   }
 
   findAll(): Promise<Alert[]> {
@@ -39,23 +39,21 @@ export class AlertService {
     return this.alertRepository.findOne({ where: { id } });
   }
 
-  async update(id: number, updateAlertDto: UpdateAlertDto): Promise<boolean> {
+  async update(id: number, updateAlertDto: UpdateAlertDto): Promise<void> {
     this.logger.log(`Updating alert with id ${id}`);
     const alert = await this.findOne(id);
     if (!alert) {
       throw new BadRequestException('Alert not found');
     }
-    return (
-      (await this.alertRepository.update(id, updateAlertDto)).affected === 1
-    );
+    await this.alertRepository.update(id, updateAlertDto);
   }
 
-  async remove(id: number): Promise<boolean> {
+  async remove(id: number): Promise<void> {
     this.logger.log(`Removing alert with id ${id}`);
     const alert = await this.findOne(id);
     if (!alert) {
       throw new BadRequestException('Alert not found');
     }
-    return (await this.alertRepository.delete(id)).affected === 1;
+    await this.alertRepository.delete(id);
   }
 }

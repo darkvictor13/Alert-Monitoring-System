@@ -28,16 +28,13 @@ export class UserController {
 
   @Post()
   @UsePipes(ValidationPipe)
-  create(@Body() createUserDto: CreateUserDto) {
-    return plainToInstance(
-      SerializedUser,
-      this.userService.create(createUserDto),
-    );
+  create(@Body() createUserDto: CreateUserDto): Promise<number> {
+    return this.userService.create(createUserDto);
   }
 
   @Get()
   @UseGuards(AuthenticationGuard)
-  findAll(@Query('email') email: string) {
+  findAll(@Query('email') email: string): SerializedUser | SerializedUser[] {
     if (email) {
       return plainToInstance(
         SerializedUser,
@@ -53,7 +50,7 @@ export class UserController {
     @Param('id', ParseIntPipe) id: number,
     @Query('loadDevices', new DefaultValuePipe(false), ParseBoolPipe)
     loadDevices: boolean,
-  ) {
+  ): SerializedUser {
     return plainToInstance(
       SerializedUser,
       this.userService.findOneById(id, loadDevices),
@@ -67,14 +64,14 @@ export class UserController {
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateUserDto: UpdateUserDto,
-  ) {
+  ): Promise<void> {
     return this.userService.update(id, updateUserDto);
   }
 
   @Delete(':id')
   @UseGuards(AuthenticationGuard)
   @HttpCode(204)
-  remove(@Param('id', ParseIntPipe) id: number) {
+  remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.userService.remove(id);
   }
 }

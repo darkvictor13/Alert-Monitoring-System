@@ -14,7 +14,7 @@ export class UserService {
     private readonly passwordService: PasswordService,
   ) {}
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: CreateUserDto): Promise<number> {
     this.logger.log('Creating user');
     const { email, firstName, lastName, telegramId, phoneNumber } =
       createUserDto;
@@ -47,7 +47,7 @@ export class UserService {
       ...createUserDto,
       password,
     });
-    return this.userRepository.save(newUser);
+    return (await this.userRepository.save(newUser)).id;
   }
 
   findAll(): Promise<User[]> {

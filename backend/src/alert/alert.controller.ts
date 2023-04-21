@@ -20,7 +20,7 @@ export class AlertController {
 
   @Post()
   @UsePipes(ValidationPipe)
-  create(@Body() createAlertDto: CreateAlertDto): Promise<Alert> {
+  create(@Body() createAlertDto: CreateAlertDto): Promise<number> {
     return this.alertService.create(createAlertDto);
   }
 
@@ -39,12 +39,12 @@ export class AlertController {
   update(
     @Param('id') id: string,
     @Body() updateAlertDto: UpdateAlertDto,
-  ): Promise<boolean> {
+  ): Promise<void> {
     return this.alertService.update(+id, updateAlertDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<boolean> {
+  remove(@Param('id') id: string): Promise<void> {
     return this.alertService.remove(+id);
   }
 }

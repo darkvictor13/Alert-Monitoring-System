@@ -23,7 +23,7 @@ export class DeviceController {
 
   @Post()
   @UsePipes(ValidationPipe)
-  create(@Body() createDeviceDto: CreateDeviceDto) {
+  create(@Body() createDeviceDto: CreateDeviceDto): Promise<string> {
     return this.deviceService.create(createDeviceDto);
   }
 
@@ -33,7 +33,7 @@ export class DeviceController {
   }
 
   @Get(':uuid')
-  findOneByUuid(@Param('uuid') uuid: string) {
+  findOneByUuid(@Param('uuid') uuid: string): Promise<IDevice> {
     return this.deviceService.findOneByUuid(uuid);
   }
 

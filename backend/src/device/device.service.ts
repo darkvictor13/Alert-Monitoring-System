@@ -13,7 +13,7 @@ export class DeviceService {
     private readonly userService: UserService,
     @InjectRepository(Device) private deviceRepository: Repository<Device>,
   ) {}
-  async create(createDeviceDto: CreateDeviceDto) {
+  async create(createDeviceDto: CreateDeviceDto): Promise<string> {
     this.logger.log('Creating device');
     const user = await this.userService.findOneById(createDeviceDto.userId);
     if (!user) {
@@ -23,7 +23,7 @@ export class DeviceService {
       ...createDeviceDto,
       user,
     });
-    return this.deviceRepository.save(device);
+    return (await this.deviceRepository.save(device)).uuid;
   }
 
   findAll(): Promise<Device[]> {

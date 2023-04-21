@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { DeviceService } from 'src/device/device.service';
 import { Repository } from 'typeorm';
 import { CreateAlertDto } from './dto/create-alert.dto';
 import { UpdateAlertDto } from './dto/update-alert.dto';
@@ -10,11 +11,22 @@ export class AlertService {
   private readonly logger: Logger = new Logger(AlertService.name);
   constructor(
     @InjectRepository(Alert) private alertRepository: Repository<Alert>,
+    private readonly deviceService: DeviceService,
   ) {}
 
-  create(createAlertDto: CreateAlertDto): Promise<Alert> {
+  async create(createAlertDto: CreateAlertDto): Promise<Alert> {
     this.logger.log('Creating alert');
-    return this.alertRepository.save(createAlertDto);
+    const device = await this.deviceService.findOneByUuid(
+      createAlertDto.deviceUuid,
+    );
+    if (!device) {
+      throw new BadRequestException('Device not found');
+    }
+    const alert = this.alertRepository.create({
+      ...createAlertDto,
+      device,
+    });
+    return this.alertRepository.save(alert);
   }
 
   findAll(): Promise<Alert[]> {

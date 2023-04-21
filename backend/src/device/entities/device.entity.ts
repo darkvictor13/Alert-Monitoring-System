@@ -1,9 +1,11 @@
+import { Alert } from 'src/alert/entities/alert.entity';
 import { User } from 'src/user/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -15,6 +17,9 @@ export class Device {
 
   @ManyToOne(() => User, (user) => user.devices)
   user: User;
+
+  @OneToMany(() => Alert, (alert) => alert.device)
+  alerts: Alert[];
 
   /**
    * The name of the device, set by the user.

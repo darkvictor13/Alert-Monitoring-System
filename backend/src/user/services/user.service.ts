@@ -65,21 +65,21 @@ export class UserService {
     return this.userRepository.findOne({ where: { email } });
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto): Promise<boolean> {
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<void> {
     this.logger.log(`Updating user with id ${id}`);
     const user = await this.findOneById(id);
     if (!user) {
       throw new BadRequestException('User not found');
     }
-    return (await this.userRepository.update(id, updateUserDto)).affected === 1;
+    await this.userRepository.update(id, updateUserDto);
   }
 
-  async remove(id: number): Promise<boolean> {
+  async remove(id: number): Promise<void> {
     this.logger.log(`Deleting user with id ${id}`);
     const user = await this.findOneById(id);
     if (!user) {
       throw new BadRequestException('User not found');
     }
-    return (await this.userRepository.delete(id)).affected === 1;
+    await this.userRepository.delete(id);
   }
 }

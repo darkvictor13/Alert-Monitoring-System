@@ -11,6 +11,7 @@ import {
   ParseIntPipe,
   UseGuards,
   Query,
+  HttpCode,
 } from '@nestjs/common';
 import { UserService } from './services/user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -53,6 +54,7 @@ export class UserController {
   @Patch(':id')
   @UseGuards(AuthenticationGuard)
   @UsePipes(ValidationPipe)
+  @HttpCode(204)
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateUserDto: UpdateUserDto,
@@ -62,6 +64,7 @@ export class UserController {
 
   @Delete(':id')
   @UseGuards(AuthenticationGuard)
+  @HttpCode(204)
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.userService.remove(id);
   }

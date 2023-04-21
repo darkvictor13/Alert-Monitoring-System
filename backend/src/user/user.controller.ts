@@ -12,6 +12,8 @@ import {
   UseGuards,
   Query,
   HttpCode,
+  ParseBoolPipe,
+  DefaultValuePipe,
 } from '@nestjs/common';
 import { UserService } from './services/user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -47,8 +49,15 @@ export class UserController {
 
   @Get(':id')
   @UseGuards(AuthenticationGuard)
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return plainToInstance(SerializedUser, this.userService.findOneById(id));
+  findOne(
+    @Param('id', ParseIntPipe) id: number,
+    @Query('loadDevices', new DefaultValuePipe(false), ParseBoolPipe)
+    loadDevices: boolean,
+  ) {
+    return plainToInstance(
+      SerializedUser,
+      this.userService.findOneById(id, loadDevices),
+    );
   }
 
   @Patch(':id')

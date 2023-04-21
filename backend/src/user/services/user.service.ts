@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindOneOptions, Repository } from 'typeorm';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { User } from '../entities/user.entity';
@@ -55,9 +55,13 @@ export class UserService {
     return this.userRepository.find();
   }
 
-  findOneById(id: number): Promise<User> {
+  findOneById(id: number, loadDevices = false): Promise<User> {
     this.logger.log(`Getting user with id ${id}`);
-    return this.userRepository.findOne({ where: { id } });
+    const options: FindOneOptions<User> = { where: { id } };
+    if (loadDevices) {
+      options.relations = ['devices'];
+    }
+    return this.userRepository.findOne(options);
   }
 
   findOneByEmail(email: string): Promise<User> {

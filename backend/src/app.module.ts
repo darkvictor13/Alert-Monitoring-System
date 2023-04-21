@@ -10,6 +10,7 @@ import { MqttModule } from 'nest-mqtt';
 import { TelegrafModule } from 'nestjs-telegraf';
 import { TelegramBotModule } from './telegram_bot/telegram_bot.module';
 import { AlertModule } from './alert/alert.module';
+import { BullModule } from '@nestjs/bull';
 
 @Module({
   imports: [
@@ -33,12 +34,19 @@ import { AlertModule } from './alert/alert.module';
       port: parseInt(process.env.MQTT_PORT, 10),
       protocol: 'mqtt',
     }),
+    BullModule.forRoot({
+      redis: {
+        host: process.env.REDIS_HOST,
+        port: parseInt(process.env.REDIS_PORT, 10),
+      },
+    }),
     TelegrafModule.forRootAsync({
       useFactory: async (configService: ConfigService) => ({
         token: configService.get<string>('TELEGRAM_BOT_TOKEN'),
       }),
       inject: [ConfigService],
     }),
+
     UserModule,
     AuthModule,
     DeviceModule,

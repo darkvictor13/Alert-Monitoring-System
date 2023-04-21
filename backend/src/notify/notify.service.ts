@@ -6,7 +6,7 @@ import {
 } from 'nestjs-telegram';
 
 // to send a message to my bot
-// https://telegram.me/backend_alert_bot?sendmessage=Hello+World
+// https://t.me/backend_alert_bot?start=start
 @Injectable()
 export class NotifyService {
   constructor(private readonly telegram: TelegramService) {}
@@ -19,8 +19,21 @@ export class NotifyService {
     sendToChatId: string,
     message: string,
   ): Promise<TelegramMessage> {
-    return this.telegram
-      .sendMessage({ chat_id: sendToChatId, text: message })
-      .toPromise();
+    try {
+      return this.telegram
+        .sendMessage({ chat_id: sendToChatId, text: message })
+        .toPromise();
+    } catch (e) {
+      /*
+      throw new Error(
+        `Error when sending the message ${message} to user ${sendToChatId} ` +
+          e,
+      );
+      */
+      console.log(
+        `Error when sending the message ${message} to user ${sendToChatId} ` +
+          e,
+      );
+    }
   }
 }

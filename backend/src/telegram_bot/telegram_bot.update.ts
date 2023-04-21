@@ -10,13 +10,15 @@ export class TelegramBotUpdate {
   @Help()
   async start(@Ctx() ctx: Scenes.SceneContext) {
     this.logger.log('In start');
-    await ctx.reply('Welcome!');
+    const username = ctx.from.first_name + ' ' + ctx.from.last_name;
+    const chatId = ctx.chat.id;
+    await ctx.reply('Ola ' + username + ' O seu chatId é: ' + chatId);
   }
 
-  @Hears('hi')
+  @Hears('test')
   async hears(@Ctx() ctx: Scenes.SceneContext) {
-    console.log(ctx);
+    // get username
     this.logger.log('In hears');
-    await ctx.reply('Hey there');
+    await ctx.reply('Welcome!');
   }
 }

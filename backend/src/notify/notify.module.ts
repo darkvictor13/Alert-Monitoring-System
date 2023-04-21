@@ -16,5 +16,6 @@ import { NotifyService } from './notify.service';
   ],
   controllers: [NotifyController],
   providers: [NotifyService, TelegramModule],
+  exports: [NotifyService],
 })
 export class NotifyModule {}

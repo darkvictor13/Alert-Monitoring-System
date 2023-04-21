@@ -1,15 +1,19 @@
+import { InjectQueue } from '@nestjs/bull';
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Queue } from 'bull';
 import { DeviceService } from 'src/device/device.service';
 import { Repository } from 'typeorm';
 import { CreateAlertDto } from './dto/create-alert.dto';
 import { UpdateAlertDto } from './dto/update-alert.dto';
 import { Alert } from './entities/alert.entity';
+import { ALERT_QUEUE_NAME } from './constants';
 
 @Injectable()
 export class AlertService {
   private readonly logger: Logger = new Logger(AlertService.name);
   constructor(
+    @InjectQueue(ALERT_QUEUE_NAME) private readonly alertQueue: Queue<Alert>,
     @InjectRepository(Alert) private alertRepository: Repository<Alert>,
     private readonly deviceService: DeviceService,
   ) {}
@@ -26,6 +30,7 @@ export class AlertService {
       ...createAlertDto,
       device,
     });
+    await this.alertQueue.add(alert);
     return (await this.alertRepository.save(alert)).id;
   }
 

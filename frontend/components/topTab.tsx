@@ -29,7 +29,7 @@ const TopTab: NextPage = () => {
     setAnchorEl(null);
   };
   useEffect(() => {
-    setUser(getLocalStorageLoggedUser());
+    setUser(getLocalStorageLoggedUser() as ISerializedUser);
   }, []);
   return (
     <>

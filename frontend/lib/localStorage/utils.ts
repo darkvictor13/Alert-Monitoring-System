@@ -1,6 +1,9 @@
 import { ISerializedUser } from "../../../types/user";
 
-export function getLocalStorageLoggedUser(): ISerializedUser {
+export function getLocalStorageLoggedUser(): ISerializedUser | null {
+  if (typeof window === "undefined") {
+    return null;
+  }
   if (!process.env.NEXT_PUBLIC_LOCAL_STORAGE_USER_KEY) {
     throw new Error("Missing NEXT_PUBLIC_LOCAL_STORAGE_USER_KEY env var");
   }
@@ -15,6 +18,9 @@ export function getLocalStorageLoggedUser(): ISerializedUser {
 }
 
 export function setLocalStorageLoggedUser(user: ISerializedUser) {
+  if (typeof window === "undefined") {
+    return;
+  }
   if (!process.env.NEXT_PUBLIC_LOCAL_STORAGE_USER_KEY) {
     throw new Error("Missing NEXT_PUBLIC_LOCAL_STORAGE_USER_KEY env var");
   }

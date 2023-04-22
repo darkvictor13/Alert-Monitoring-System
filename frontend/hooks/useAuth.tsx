@@ -21,9 +21,14 @@ export const useAuth = (): AuthorizedUser => {
     setIsAuth(isAuth);
     if (!isAuth) {
       Router.push("/signin");
+      return;
     }
 
-    const user: ISerializedUser = getLocalStorageLoggedUser();
+    const user = getLocalStorageLoggedUser();
+    if (!user) {
+      Router.push("/signin");
+      return;
+    }
     setUserId(user.id);
   }, []);
   return { id: userId, isAuth };

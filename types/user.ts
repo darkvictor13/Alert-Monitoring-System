@@ -1,6 +1,13 @@
 export interface IUser {
   id: number;
   email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  telegramId: string;
+  createdAt: Date;
+  lastUpdatedAt: Date;
 }
 
 export interface ISerializedUser {

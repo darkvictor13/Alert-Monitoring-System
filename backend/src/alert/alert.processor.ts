@@ -40,10 +40,12 @@ export class AlertProcessor {
     }
 
     this.logger.log(`Sending text alert to user: ${user.id}`);
+    /*
     await this.notifyService.sendTelegramNotification(
       user.telegramId,
       `Alert: ${JSON.stringify(alert.data)} for device ${alert.device.name}`,
     );
+    */
     return true;
   }
 

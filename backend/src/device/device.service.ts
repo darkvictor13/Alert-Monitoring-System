@@ -37,7 +37,7 @@ export class DeviceService {
     this.logger.log(`Finding device with id ${uuid}`);
     return this.deviceRepository.findOne({
       where: { uuid },
-      loadRelationIds: true,
+      loadRelationIds: { relations: ['user'] },
     });
   }
 

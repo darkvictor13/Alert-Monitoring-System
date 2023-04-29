@@ -40,13 +40,14 @@ import { BullModule } from '@nestjs/bull';
         port: parseInt(process.env.REDIS_PORT, 10),
       },
     }),
+    /*
     TelegrafModule.forRootAsync({
       useFactory: async (configService: ConfigService) => ({
         token: configService.get<string>('TELEGRAM_BOT_TOKEN'),
       }),
       inject: [ConfigService],
     }),
-
+    */
     UserModule,
     AuthModule,
     DeviceModule,

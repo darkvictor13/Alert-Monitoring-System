@@ -1,5 +1,11 @@
 import { User } from 'src/user/entities/user.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('notification')
 export class Notification {
@@ -15,4 +21,7 @@ export class Notification {
 
   @Column({ nullable: false })
   text: string;
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
 }

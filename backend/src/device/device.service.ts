@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserService } from 'src/user/services/user.service';
 import { Repository } from 'typeorm';
@@ -17,13 +17,22 @@ export class DeviceService {
     this.logger.log('Creating device');
     const user = await this.userService.findOneById(createDeviceDto.userId);
     if (!user) {
-      throw new Error('User not found');
+      throw new BadRequestException('User not found');
     }
-    const device = this.deviceRepository.create({
+    const device = await this.deviceRepository.findOne({
+      where: {
+        name: createDeviceDto.name,
+        user: { id: createDeviceDto.userId },
+      },
+    });
+    if (device) {
+      throw new BadRequestException('Device with this name already exists');
+    }
+    const newDevice = this.deviceRepository.create({
       ...createDeviceDto,
       user,
     });
-    return (await this.deviceRepository.save(device)).uuid;
+    return (await this.deviceRepository.save(newDevice)).uuid;
   }
 
   findAll(): Promise<Device[]> {

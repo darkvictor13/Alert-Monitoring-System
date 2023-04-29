@@ -9,12 +9,14 @@ import { ALERT_QUEUE_NAME } from './constants';
 import { AlertProcessor } from './alert.processor';
 import { NotifyModule } from 'src/notify/notify.module';
 import { UserModule } from 'src/user/user.module';
+import { NotificationModule } from 'src/notification/notification.module';
 
 @Module({
   imports: [
     DeviceModule,
     NotifyModule,
     UserModule,
+    NotificationModule,
     TypeOrmModule.forFeature([Alert]),
     BullModule.registerQueue({
       name: ALERT_QUEUE_NAME,

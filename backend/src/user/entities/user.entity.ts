@@ -1,4 +1,5 @@
 import { Device } from 'src/device/entities/device.entity';
+import { Notification } from 'src/notification/notification.entity';
 import {
   Column,
   CreateDateColumn,
@@ -17,6 +18,9 @@ export class User {
 
   @OneToMany(() => Device, (device) => device.user)
   devices: Device[];
+
+  @OneToMany(() => Notification, (notification) => notification.user)
+  notifications: Notification[];
 
   @Column({ nullable: false, unique: true })
   email: string;

@@ -7,6 +7,7 @@ import { ALERT_QUEUE_NAME } from './constants';
 import { UserService } from 'src/user/services/user.service';
 import { AlertType } from 'types/alert';
 import { User } from 'src/user/entities/user.entity';
+import { NotificationService } from 'src/notification/notification.service';
 
 type AlertProcessorFunction = (alert: Alert) => Promise<boolean>;
 
@@ -15,6 +16,7 @@ export class AlertProcessor {
   private readonly logger: Logger = new Logger(AlertProcessor.name);
 
   constructor(
+    private readonly notificationService: NotificationService,
     private readonly notifyService: NotifyService,
     private readonly userService: UserService,
   ) {}
@@ -40,6 +42,11 @@ export class AlertProcessor {
     }
 
     this.logger.log(`Sending text alert to user: ${user.id}`);
+    this.notificationService.createNotification({
+      user,
+      generatedBy: alert.device.name,
+      text: 'por enquanto isso fica fixo de teste',
+    });
     /*
     await this.notifyService.sendTelegramNotification(
       user.telegramId,

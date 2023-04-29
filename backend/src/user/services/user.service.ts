@@ -55,11 +55,18 @@ export class UserService {
     return this.userRepository.find();
   }
 
-  findOneById(id: number, loadDevices = false): Promise<User> {
+  findOneById(
+    id: number,
+    loadDevices = false,
+    loadNotifications = true,
+  ): Promise<User> {
     this.logger.log(`Getting user with id ${id}`);
     const options: FindOneOptions<User> = { where: { id } };
     if (loadDevices) {
       options.relations = ['devices'];
+    }
+    if (loadNotifications) {
+      options.relations = ['notifications'];
     }
     return this.userRepository.findOne(options);
   }

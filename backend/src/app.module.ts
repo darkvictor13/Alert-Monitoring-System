@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
@@ -7,10 +7,11 @@ import { DeviceModule } from './device/device.module';
 import { NotifyModule } from './notify/notify.module';
 import { MqttIntegrationModule } from './mqtt_integration/mqtt_integration.module';
 import { MqttModule } from 'nest-mqtt';
-import { TelegrafModule } from 'nestjs-telegraf';
+//import { TelegrafModule } from 'nestjs-telegraf';
 import { TelegramBotModule } from './telegram_bot/telegram_bot.module';
 import { AlertModule } from './alert/alert.module';
 import { BullModule } from '@nestjs/bull';
+import { NotificationModule } from './notification/notification.module';
 
 @Module({
   imports: [
@@ -55,6 +56,7 @@ import { BullModule } from '@nestjs/bull';
     MqttIntegrationModule,
     TelegramBotModule,
     AlertModule,
+    NotificationModule,
   ],
   controllers: [],
   providers: [],

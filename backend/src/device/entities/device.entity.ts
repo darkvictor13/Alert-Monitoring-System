@@ -7,10 +7,15 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 
+/**
+ * Must have a unique name for each user.
+ */
 @Entity()
+@Unique(['name', 'user'])
 export class Device {
   @PrimaryGeneratedColumn('uuid', { name: 'device_uuid' })
   uuid: string;

@@ -1,13 +1,17 @@
 import { Announcement } from "@mui/icons-material";
 import { Box, Typography } from "@mui/material";
 import { NextPage } from "next";
-import { INotification } from "../../../types/notification";
+import {
+  INotification,
+  INotificationWithoutUser,
+} from "../../../types/notification";
 import { formatDistanceToNow } from "date-fns";
 import { useEffect, useState } from "react";
 
-const Notification: NextPage<{ notification: INotification }> = ({
+const Notification: NextPage<{ notification: INotificationWithoutUser }> = ({
   notification,
 }) => {
+  console.log(JSON.stringify(notification));
   const [timeAgo, setTimeAgo] = useState(
     formatDistanceToNow(new Date(notification.createdAt), {
       addSuffix: true,
@@ -17,6 +21,7 @@ const Notification: NextPage<{ notification: INotification }> = ({
     const interval = setInterval(() => {
       const newTimeAgo = formatDistanceToNow(new Date(notification.createdAt), {
         addSuffix: true,
+        includeSeconds: true,
       });
       if (newTimeAgo !== timeAgo) {
         setTimeAgo(newTimeAgo);

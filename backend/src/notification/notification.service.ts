@@ -16,11 +16,28 @@ export class NotificationService {
   ) {}
 
   async getNotificationByUserId(userId: number): Promise<Notification[]> {
-    const user = await this.userService.findOneById(userId, false, true);
-    if (!user) {
-      throw new BadRequestException('User not found');
+    try {
+      const rawNotifications = await this.notificationRepository
+        .createQueryBuilder('notification')
+        .orderBy('notification.created_at', 'DESC')
+        .select('*')
+        .where('notification.userId = :userId', { userId })
+        .getRawMany();
+
+      const notifications = rawNotifications.map((rawNotification) => {
+        const notification = new Notification();
+        notification.id = rawNotification.notification_id;
+        notification.text = rawNotification.text;
+        notification.generatedBy = rawNotification.generated_by;
+        notification.createdAt = rawNotification.created_at;
+        return notification;
+      });
+
+      return notifications;
+    } catch (error) {
+      this.logger.error(error);
+      throw new BadRequestException('Invalid user id');
     }
-    return user.notifications;
   }
 
   async createNotification(

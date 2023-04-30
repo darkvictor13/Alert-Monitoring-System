@@ -50,10 +50,12 @@ export class UserController {
     @Param('id', ParseIntPipe) id: number,
     @Query('loadDevices', new DefaultValuePipe(false), ParseBoolPipe)
     loadDevices: boolean,
+    @Query('loadNotifications', new DefaultValuePipe(false), ParseBoolPipe)
+    loadNotifications: boolean,
   ): SerializedUser {
     return plainToInstance(
       SerializedUser,
-      this.userService.findOneById(id, loadDevices),
+      this.userService.findOneById(id, loadDevices, loadNotifications),
     );
   }
 

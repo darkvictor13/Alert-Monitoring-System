@@ -15,13 +15,17 @@ export class NotificationService {
     private notificationRepository: Repository<Notification>,
   ) {}
 
-  async getNotificationByUserId(userId: number): Promise<Notification[]> {
+  async getNotificationByUserId(
+    userId: number,
+    takeLimit: number,
+  ): Promise<Notification[]> {
     try {
       const rawNotifications = await this.notificationRepository
         .createQueryBuilder('notification')
-        .orderBy('notification.created_at', 'DESC')
         .select('*')
+        .orderBy('notification.created_at', 'DESC')
         .where('notification.userId = :userId', { userId })
+        .take(takeLimit)
         .getRawMany();
 
       const notifications = rawNotifications.map((rawNotification) => {

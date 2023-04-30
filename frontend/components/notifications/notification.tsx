@@ -1,5 +1,5 @@
 import { Announcement } from "@mui/icons-material";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import { NextPage } from "next";
 import {
   INotification,
@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 const Notification: NextPage<{ notification: INotificationWithoutUser }> = ({
   notification,
 }) => {
-  console.log(JSON.stringify(notification));
+  const theme = useTheme();
   const [timeAgo, setTimeAgo] = useState(
     formatDistanceToNow(new Date(notification.createdAt), {
       addSuffix: true,
@@ -40,7 +40,7 @@ const Notification: NextPage<{ notification: INotificationWithoutUser }> = ({
         boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)",
         transition: "all 0.3s ease",
         "&:hover": {
-          backgroundColor: "#222",
+          backgroundColor: theme.palette.primary.main,
         },
         "&:hover *": {
           fontSize: "larger",

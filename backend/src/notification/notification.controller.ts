@@ -4,10 +4,13 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthenticationGuard } from 'src/auth/guards/authentication.guard';
 import { NotificationService } from './notification.service';
 
 @Controller('notification')
+@UseGuards(AuthenticationGuard)
 export class NotificationController {
   constructor(private readonly notificationService: NotificationService) {}
 

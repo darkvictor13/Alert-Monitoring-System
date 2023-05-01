@@ -6,9 +6,4 @@ export class MqttIntegrationController {
   constructor(
     private readonly mqttIntegrationService: MqttIntegrationService,
   ) {}
-
-  @Post('test')
-  async test() {
-    await this.mqttIntegrationService.testPublish();
-  }
 }

@@ -15,6 +15,20 @@ export class NotificationService {
     private notificationRepository: Repository<Notification>,
   ) {}
 
+  getAllNotifications(): Promise<Notification[]> {
+    return this.notificationRepository.find();
+  }
+
+  async getNotificationById(id: number): Promise<Notification> {
+    const notification = await this.notificationRepository.findOne({
+      where: { id },
+    });
+    if (!notification) {
+      throw new BadRequestException('Invalid notification id');
+    }
+    return notification;
+  }
+
   async getNotificationByUserId(
     userId: number,
     takeLimit: number,

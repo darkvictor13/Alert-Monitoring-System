@@ -61,6 +61,7 @@ export class NotificationService {
   async createNotification(
     createNotificationDto: CreateNotificationDto,
   ): Promise<number> {
+    this.logger.log('Creating notification');
     let user: User;
     if (typeof createNotificationDto.user === 'number') {
       user = await this.userService.findOneById(
@@ -78,6 +79,7 @@ export class NotificationService {
       ...createNotificationDto,
       user,
     });
+
     return (await this.notificationRepository.save(notification)).id;
   }
 }

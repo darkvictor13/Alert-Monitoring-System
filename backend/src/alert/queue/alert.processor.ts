@@ -8,6 +8,7 @@ import { UserService } from 'src/user/services/user.service';
 import { AlertType } from 'types/alert';
 import { User } from 'src/user/entities/user.entity';
 import { NotificationService } from 'src/notification/notification.service';
+import { CreateNotificationDto } from 'src/notification/create-notificaion.dto';
 
 type AlertProcessorFunction = (alert: Alert) => Promise<boolean>;
 
@@ -21,8 +22,8 @@ export class AlertProcessor {
     private readonly userService: UserService,
   ) {}
 
-  async processTextAlert(alert: Alert): Promise<boolean> {
-    this.logger.log('Processing text alert');
+  async processPresenceAlert(alert: Alert): Promise<boolean> {
+    this.logger.log('Processing presence alert');
     if (!alert.device.user) {
       this.logger.error(`User not found for alert: ${alert.id}`);
       return false;
@@ -30,10 +31,8 @@ export class AlertProcessor {
 
     let user: User;
     if (typeof alert.device.user === 'number') {
-      this.logger.log('in if');
       user = await this.userService.findOneById(alert.device.user);
     } else {
-      this.logger.log('in else');
       user = alert.device.user;
     }
     if (!user) {
@@ -41,12 +40,12 @@ export class AlertProcessor {
       return false;
     }
 
-    this.logger.log(`Sending text alert to user: ${user.id}`);
-    this.notificationService.createNotification({
+    const createNotificationDto: CreateNotificationDto = {
       user,
       generatedBy: alert.device.name,
-      text: 'por enquanto isso fica fixo de teste',
-    });
+      text: 'detectou presença',
+    };
+    this.notificationService.createNotification(createNotificationDto);
     /*
     await this.notifyService.sendTelegramNotification(
       user.telegramId,
@@ -62,9 +61,9 @@ export class AlertProcessor {
 
     let toRun: AlertProcessorFunction;
     switch (job.data.type) {
-      case AlertType.TEXT_ALERT:
-        this.logger.log('Processing text alert');
-        toRun = this.processTextAlert.bind(this);
+      case AlertType.PRESENCE_ALERT:
+        this.logger.log('Processing presence alert');
+        toRun = this.processPresenceAlert.bind(this);
         break;
       default:
         this.logger.error(`Unknown alert type: ${job.data.type}`);

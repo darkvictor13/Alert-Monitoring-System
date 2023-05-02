@@ -13,6 +13,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <CacheProvider value={cache}>
       <Head>
+        <title>Alert Monitoring System</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

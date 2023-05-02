@@ -4,7 +4,7 @@ import useSWR from "swr";
 import { useSWRClient } from "../../hooks/useSwrClient";
 import { INotification } from "../../../types/notification";
 import Notification from "./notification";
-import TopTab from "../topTab";
+import TopTab from "../topTab/topTab";
 import StickyFooter from "../stickyFooter";
 import { useState } from "react";
 import Typography from "@mui/material/Typography";

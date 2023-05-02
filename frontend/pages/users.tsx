@@ -4,7 +4,7 @@ import ShowUser from "../components/user/showUser";
 import { IUser } from "../../types/user";
 import backendApi from "../lib/axios/backend_api";
 import { useEffect, useState } from "react";
-import TopTab from "../components/topTab";
+import TopTab from "../components/topTab/topTab";
 import { Container } from "@mui/system";
 
 const Users: NextPage = () => {
@@ -19,9 +19,6 @@ const Users: NextPage = () => {
 
   return (
     <>
-      <Head>
-        <title>Sing In</title>
-      </Head>
       <TopTab />
       <h1>Users</h1>
       {users.map((user) => (

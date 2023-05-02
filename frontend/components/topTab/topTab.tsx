@@ -9,16 +9,20 @@ import {
   MenuItem,
   Tooltip,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { NextPage } from "next";
 import Router from "next/router";
 import React, { useEffect, useState } from "react";
-import { ISerializedUser } from "../../types/user";
-import { logout } from "../lib/auth";
-import { getLocalStorageLoggedUser } from "../lib/localStorage/utils";
-import createEmptyUser from "../lib/user";
+import { ISerializedUser } from "../../../types/user";
+import { useAuth } from "../../hooks/useAuth";
+import { logout } from "../../lib/auth";
+import { getLocalStorageLoggedUser } from "../../lib/localStorage/utils";
+import createEmptyUser from "../../lib/user";
+import MyMenuTabItem from "./MyMenuTabItem";
 
 const TopTab: NextPage = () => {
+  const { id } = useAuth();
   const [user, setUser] = useState<ISerializedUser>(createEmptyUser());
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -41,9 +45,8 @@ const TopTab: NextPage = () => {
           justifyContent: "flex-end",
         }}
       >
-        <MenuItem>Home</MenuItem>
-        <Typography sx={{ minWidth: 100 }}>Contact</Typography>
-        <Typography sx={{ minWidth: 100 }}>Profile</Typography>
+        <MyMenuTabItem text="Home" route="/" />
+        <MyMenuTabItem text="Notifications" route={`/${id}/notifications/`} />
         <Tooltip title="Account settings">
           <IconButton
             onClick={handleClick}

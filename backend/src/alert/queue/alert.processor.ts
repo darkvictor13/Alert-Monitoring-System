@@ -46,12 +46,10 @@ export class AlertProcessor {
       text: 'detectou presença',
     };
     this.notificationService.createNotification(createNotificationDto);
-    /*
     await this.notifyService.sendTelegramNotification(
       user.telegramId,
       `Alert: ${JSON.stringify(alert.data)} for device ${alert.device.name}`,
     );
-    */
     return true;
   }
 

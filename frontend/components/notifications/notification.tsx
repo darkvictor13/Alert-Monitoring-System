@@ -34,13 +34,14 @@ const Notification: NextPage<{ notification: INotificationWithoutUser }> = ({
       sx={{
         width: "50%",
         border: "2px solid black",
-        padding: "20px",
+        padding: "20px 20px 10px 20px",
         margin: "10px",
         borderRadius: "5px",
         boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)",
         transition: "all 0.3s ease",
         "&:hover": {
           backgroundColor: theme.palette.primary.main,
+          color: theme.palette.primary.contrastText,
         },
         "&:hover *": {
           fontSize: "larger",
@@ -51,18 +52,26 @@ const Notification: NextPage<{ notification: INotificationWithoutUser }> = ({
         sx={{
           display: "flex",
           alignItems: "center",
-          justifyContent: "space-evenly",
-          gap: "30px",
-          marginBottom: "20px",
+          justifyContent: "flex-start",
+          gap: "20px",
+          marginBottom: "30px",
         }}
       >
         <Announcement />
         <Typography>
           O dispositivo <b>{notification.generatedBy}</b> informa
-          {" " + notification.text}
+          {" " + notification.text}.
         </Typography>
       </Box>
-      <Typography>{timeAgo}</Typography>
+      <Typography
+        sx={{
+          display: "flex",
+          alignItems: "flex-end",
+          justifyContent: "flex-end",
+        }}
+      >
+        {timeAgo}
+      </Typography>
     </Box>
   );
 };

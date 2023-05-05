@@ -15,7 +15,6 @@ const MyMenuTabItem: NextPage<{ text: string; route: string }> = ({
           borderBottom: `2px solid ${theme.palette.primary.main}`,
         },
         borderBottom: "2px solid transparent",
-        margin: "10px",
       }}
       onClick={() => {
         Router.push(route);

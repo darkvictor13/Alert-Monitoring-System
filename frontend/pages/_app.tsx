@@ -5,7 +5,7 @@ import { CacheProvider } from "@emotion/react";
 import Head from "next/head";
 
 const theme = createTheme({
-  palette: { mode: "dark", primary: { main: "#08507a" } },
+  palette: { mode: "dark" },
 });
 const cache = createCache({ key: "css", prepend: true });
 

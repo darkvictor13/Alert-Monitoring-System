@@ -15,30 +15,26 @@
 #include <HTTPClient.h>
 #include <WiFi.h>
 
+#include "distance_sensor.hpp"
 #include "env.h"
 
 static const char* TAG = "Main";
-static const int PRESENCE_PIN = 4;
 
 WiFiClient wifi_client;
 HTTPClient http_client;
 
+DistanceSensor distance_sensor;
+
 StaticJsonDocument<200> json_document;
 char json_string[200];
 
-bool isPresenceDetected() {
-    return digitalRead(PRESENCE_PIN) == HIGH;
-}
-
 void setup() {
-    ESP_LOGI(TAG, "Starting...");
-    pinMode(PRESENCE_PIN, INPUT);
+    distance_sensor.setup();
 
     json_document["type"] = 0;
     json_document["deviceUuid"] = device_uuid;
     json_document["data"] = "{}";
     serializeJson(json_document, json_string);
-    ESP_LOGI(TAG, "JSON: %s", json_string);
 
     WiFi.begin(wifi_network, wifi_password);
     if (WiFi.waitForConnectResult() != WL_CONNECTED) {
@@ -53,9 +49,9 @@ void setup() {
 }
 
 void loop() {
-    if (isPresenceDetected()) {
-        ESP_LOGI(TAG, "Presence detected!");
-        const int ret = http_client.POST(json_string);
-        ESP_LOGI(TAG, "HTTP POST return code: %d", ret);
-    }
+    distance_sensor.waitUntil(true);
+    // const int ret = http_client.POST(json_string);
+    // ESP_LOGI(TAG, "HTTP POST return code: %d", ret);
+    // delay(1000);
+    distance_sensor.waitUntil(false);
 }

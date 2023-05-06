@@ -47,7 +47,8 @@ const TopTab: NextPage = () => {
         }}
       >
         <MyMenuTabItem text="Home" route="/" />
-        <MyMenuTabItem text="Notifications" route={`/${id}/notifications/`} />
+        <MyMenuTabItem text="Notifications" route={`/notifications/`} />
+        <MyMenuTabItem text="Devices" route={`/devices/`} />
         <Tooltip title="Account settings">
           <IconButton
             onClick={handleClick}

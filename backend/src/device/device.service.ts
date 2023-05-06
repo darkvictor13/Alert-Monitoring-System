@@ -50,6 +50,14 @@ export class DeviceService {
     });
   }
 
+  findAllByUserId(userId: number): Promise<Device[]> {
+    this.logger.log(`Finding device with user id ${userId}`);
+    return this.deviceRepository.find({
+      where: { user: { id: userId } },
+      loadRelationIds: { relations: ['user'] },
+    });
+  }
+
   // get the user who owns the device
   //async getUserByDeviceId(deviceId: string) {
   //const device = await this.findOneByUuid(deviceId);

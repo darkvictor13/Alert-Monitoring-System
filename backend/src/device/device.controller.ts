@@ -10,14 +10,17 @@ import {
   UsePipes,
   ValidationPipe,
   HttpCode,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { DeviceGuard } from 'src/auth/guards/device.guard';
 import { DeviceService } from './device.service';
 import { CreateDeviceDto } from './dto/create-device.dto';
 import { UpdateDeviceDto } from './dto/update-device.dto';
 import { IDevice } from 'types/device';
+import { AuthenticationGuard } from 'src/auth/guards/authentication.guard';
 
 @Controller('device')
+@UseGuards(AuthenticationGuard)
 export class DeviceController {
   constructor(private readonly deviceService: DeviceService) {}
 
@@ -35,6 +38,13 @@ export class DeviceController {
   @Get(':uuid')
   findOneByUuid(@Param('uuid') uuid: string): Promise<IDevice> {
     return this.deviceService.findOneByUuid(uuid);
+  }
+
+  @Get('user/:userId')
+  findOneByUserId(
+    @Param('userId', ParseIntPipe) userId: number,
+  ): Promise<IDevice[]> {
+    return this.deviceService.findAllByUserId(userId);
   }
 
   @Patch(':uuid')

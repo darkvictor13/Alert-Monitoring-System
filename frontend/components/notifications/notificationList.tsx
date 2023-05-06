@@ -9,6 +9,7 @@ import StickyFooter from "../stickyFooter";
 import { useState } from "react";
 import Typography from "@mui/material/Typography";
 import { Button } from "@mui/material";
+import NoNotifications from "./noNotifications";
 
 const DEFAULT_NUMBER_OF_NOTIFICATIONS = 10;
 const INCREMENT_NUMBER_OF_NOTIFICATIONS = 10;
@@ -17,12 +18,13 @@ const NotificationList: NextPage<{ userId: number }> = ({ userId }) => {
   const [numberOfNotifications, setNumberOfNotifications] = useState(
     DEFAULT_NUMBER_OF_NOTIFICATIONS
   );
-  const { data, error } = useSWRClient<INotification[]>(
+  const { data } = useSWRClient<INotification[]>(
     `/notification/${userId}/${numberOfNotifications}`
   );
-  return (
-    <>
-      <TopTab />
+
+  // just render the notifications and the load more button
+  const renderNotifications = () => {
+    return (
       <Box
         sx={{
           display: "flex",
@@ -35,28 +37,39 @@ const NotificationList: NextPage<{ userId: number }> = ({ userId }) => {
         {data?.map((notification) => (
           <Notification key={notification.id} notification={notification} />
         ))}
-        <Box>
-          <Button
-            onClick={() =>
-              setNumberOfNotifications(
-                numberOfNotifications + INCREMENT_NUMBER_OF_NOTIFICATIONS
-              )
-            }
-            variant="contained"
-            color="primary"
-            sx={{
-              fontWeight: "bold",
-              textTransform: "none",
-              marginTop: "20px",
-              marginBottom: "20px",
-            }}
-          >
-            Load More
-          </Button>
-        </Box>
+        <Button
+          onClick={() =>
+            setNumberOfNotifications(
+              numberOfNotifications + INCREMENT_NUMBER_OF_NOTIFICATIONS
+            )
+          }
+          variant="contained"
+          color="primary"
+          sx={{
+            fontWeight: "bold",
+            textTransform: "none",
+            marginTop: "20px",
+            marginBottom: "20px",
+          }}
+        >
+          Load More
+        </Button>
       </Box>
+    );
+  };
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100dvh",
+      }}
+    >
+      <TopTab />
+      {(data?.length || 0) > 0 ? renderNotifications() : <NoNotifications />}
       <StickyFooter />
-    </>
+    </Box>
   );
 };
 

@@ -16,6 +16,7 @@ WORKDIR /usr/src/app
 COPY --from=builder /usr/src/app/dist ./dist
 
 COPY package*.json ./
+COPY yarn.lock ./
 
 RUN yarn install --frozen-lockfile --production
 

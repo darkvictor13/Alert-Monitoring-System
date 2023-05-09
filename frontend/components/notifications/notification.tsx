@@ -59,7 +59,7 @@ const Notification: NextPage<{ notification: INotificationWithoutUser }> = ({
       >
         <Announcement />
         <Typography>
-          O dispositivo <b>{notification.generatedBy}</b> informa
+          O dispositivo <b>{notification.generatedBy}</b> informa:
           {" " + notification.text}.
         </Typography>
       </Box>

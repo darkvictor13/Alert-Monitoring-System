@@ -48,7 +48,6 @@ const NotificationList: NextPage<{ userId: number }> = ({ userId }) => {
           sx={{
             fontWeight: "bold",
             textTransform: "none",
-            marginTop: "20px",
             marginBottom: "20px",
           }}
         >

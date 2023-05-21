@@ -22,6 +22,15 @@ export class AlertProcessor {
     private readonly userService: UserService,
   ) {}
 
+  private alertTypeToText(type: AlertType): string {
+    switch (type) {
+      case AlertType.PRESENCE_ALERT:
+        return 'detectou presença';
+      default:
+        return 'alerta';
+    }
+  }
+
   async processPresenceAlert(alert: Alert): Promise<boolean> {
     this.logger.log('Processing presence alert');
     if (!alert.device.user) {
@@ -40,15 +49,16 @@ export class AlertProcessor {
       return false;
     }
 
+    const text = this.alertTypeToText(alert.type);
     const createNotificationDto: CreateNotificationDto = {
       user,
       generatedBy: alert.device.name,
-      text: 'detectou presença',
+      text,
     };
     this.notificationService.createNotification(createNotificationDto);
     await this.notifyService.sendTelegramNotification(
       user.telegramId,
-      `Alert: ${JSON.stringify(alert.data)} for device ${alert.device.name}`,
+      `Dispositivo ${alert.device.name} informa: ${text}`,
     );
     return true;
   }

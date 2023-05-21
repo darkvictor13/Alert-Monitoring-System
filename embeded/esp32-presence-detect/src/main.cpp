@@ -31,6 +31,7 @@ char json_string[200];
 void setup() {
     distance_sensor.setup();
 
+#ifndef TEST_MODE
     json_document["type"] = 0;
     json_document["deviceUuid"] = device_uuid;
     json_document["data"] = "{}";
@@ -46,12 +47,17 @@ void setup() {
 
     http_client.begin(wifi_client, server_host, server_port, server_uri);
     http_client.addHeader("Content-Type", "application/json");
+#endif
 }
 
 void loop() {
+#ifndef TEST_MODE
     distance_sensor.waitUntil(true);
     // const int ret = http_client.POST(json_string);
     // ESP_LOGI(TAG, "HTTP POST return code: %d", ret);
     // delay(1000);
     distance_sensor.waitUntil(false);
+#else
+    distance_sensor.getDistanceInCm();
+#endif
 }

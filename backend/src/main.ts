@@ -49,6 +49,7 @@ async function bootstrap() {
       saveUninitialized: false,
       cookie: {
         maxAge: 1000 * 60 * 60 * 24,
+        // TODO: test with httpOnly: true
         httpOnly: false,
       },
       store: new TypeormStore({

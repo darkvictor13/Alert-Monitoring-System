@@ -48,13 +48,13 @@ void Camera::init() {
 
 camera_fb_t* Camera::takePicture() {
   if (!is_initialized) {
-    ESP_LOGI(TAG, "Camera nao foi inicializada");
+    ESP_LOGE(TAG, "Camera nao foi inicializada");
     delay(1000);
     ESP.restart();
   }
   auto p = esp_camera_fb_get();
   if (p == NULL) {
-    ESP_LOGI(TAG, "Picture is NULL\n");
+    ESP_LOGE(TAG, "Picture is NULL\n");
     delay(1000);
     ESP.restart();
   }

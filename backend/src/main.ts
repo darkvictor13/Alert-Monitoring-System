@@ -7,6 +7,7 @@ import * as session from 'express-session';
 import * as passport from 'passport';
 import { ConfigService } from '@nestjs/config';
 import { Transport } from '@nestjs/microservices';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -40,8 +41,6 @@ async function bootstrap() {
   // delete all sessions
   //await sessionRepository.delete({});
 
-  app.setGlobalPrefix('api');
-
   app.use(
     session({
       secret: configService.get<string>('SESSION_SECRET'),
@@ -59,6 +58,16 @@ async function bootstrap() {
   );
   app.use(passport.initialize());
   app.use(passport.session());
+
+  const swaggerConfig = new DocumentBuilder()
+    .setVersion('1.0')
+    .setTitle('Api TCC')
+    .setDescription('Endpoints para o TCC')
+    .build();
+  const document = SwaggerModule.createDocument(app, swaggerConfig);
+  SwaggerModule.setup('api', app, document);
+
+  app.setGlobalPrefix('api');
 
   await app.listen(4000);
 }

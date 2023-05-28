@@ -26,12 +26,13 @@ export class AlertService {
     if (!device) {
       throw new BadRequestException('Device not found');
     }
-    const alert = this.alertRepository.create({
+    const alertData = this.alertRepository.create({
       ...createAlertDto,
       device,
     });
+    const alert = await this.alertRepository.save(alertData);
     await this.alertQueue.add(alert);
-    return (await this.alertRepository.save(alert)).id;
+    return alert.id;
   }
 
   findAll(): Promise<Alert[]> {

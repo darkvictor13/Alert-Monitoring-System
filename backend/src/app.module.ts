@@ -13,6 +13,7 @@ import { TelegramBotModule } from './telegram_bot/telegram_bot.module';
 import { AlertModule } from './alert/alert.module';
 import { BullModule } from '@nestjs/bull';
 import { NotificationModule } from './notification/notification.module';
+import { FileModule } from './file/file.module';
 
 @Module({
   imports: [
@@ -56,6 +57,7 @@ import { NotificationModule } from './notification/notification.module';
     TelegramBotModule,
     AlertModule,
     NotificationModule,
+    FileModule,
   ],
   controllers: [],
   providers: [],

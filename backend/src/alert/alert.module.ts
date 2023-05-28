@@ -9,6 +9,7 @@ import { NotifyModule } from 'src/notify/notify.module';
 import { UserModule } from 'src/user/user.module';
 import { NotificationModule } from 'src/notification/notification.module';
 import { AlertQueueModule } from './queue/alert-queue.module';
+import { FileModule } from 'src/file/file.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { AlertQueueModule } from './queue/alert-queue.module';
     NotificationModule,
     TypeOrmModule.forFeature([Alert]),
     AlertQueueModule,
+    FileModule,
   ],
   controllers: [AlertController],
   providers: [AlertService, AlertProcessor],

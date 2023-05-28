@@ -15,6 +15,21 @@ export class NotifyService {
     return this.telegram.getMe().toPromise();
   }
 
+  sendTelegramPicture(
+    sendToChatId: string,
+    photo: string,
+    caption: string,
+  ): Promise<TelegramMessage> {
+    try {
+      console.log(`Sending photo to user ${sendToChatId}`);
+      return this.telegram
+        .sendPhoto({ chat_id: sendToChatId, photo, caption })
+        .toPromise();
+    } catch (e) {
+      console.log(`Error when sending the photo to user ${sendToChatId} ` + e);
+    }
+  }
+
   sendTelegramNotification(
     sendToChatId: string,
     message: string,

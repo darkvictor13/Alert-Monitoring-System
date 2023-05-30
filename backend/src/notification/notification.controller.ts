@@ -6,7 +6,7 @@ import {
   ParseIntPipe,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthenticationGuard } from 'src/auth/guards/authentication.guard';
 import { NotificationService } from './notification.service';
 
@@ -17,6 +17,7 @@ export class NotificationController {
   constructor(private readonly notificationService: NotificationService) {}
 
   @Get(':id/:takeLimit?')
+  @ApiOperation({ summary: 'Get notifications by user id' })
   async getNotificationByUserId(
     @Param('id', ParseIntPipe) userId: number,
     @Param('takeLimit', new DefaultValuePipe(20), ParseIntPipe)

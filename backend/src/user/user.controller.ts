@@ -21,7 +21,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthenticationGuard } from 'src/auth/guards/authentication.guard';
 import { plainToInstance } from 'class-transformer';
 import { SerializedUser } from './user.serialized';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @Controller('user')
 @ApiTags('user')
@@ -30,11 +30,13 @@ export class UserController {
 
   @Post()
   @UsePipes(ValidationPipe)
+  @ApiOperation({ summary: 'Create user' })
   create(@Body() createUserDto: CreateUserDto): Promise<number> {
     return this.userService.create(createUserDto);
   }
 
   @Get()
+  @ApiOperation({ summary: 'Get all users' })
   @UseGuards(AuthenticationGuard)
   findAll(@Query('email') email: string): SerializedUser | SerializedUser[] {
     if (email) {
@@ -47,6 +49,7 @@ export class UserController {
   }
 
   @Get(':id')
+  @ApiOperation({ summary: 'Get user by id' })
   @UseGuards(AuthenticationGuard)
   findOne(
     @Param('id', ParseIntPipe) id: number,
@@ -62,6 +65,7 @@ export class UserController {
   }
 
   @Patch(':id')
+  @ApiOperation({ summary: 'Update user by id' })
   @UseGuards(AuthenticationGuard)
   @UsePipes(ValidationPipe)
   @HttpCode(204)
@@ -73,6 +77,7 @@ export class UserController {
   }
 
   @Delete(':id')
+  @ApiOperation({ summary: 'Delete user by id' })
   @UseGuards(AuthenticationGuard)
   @HttpCode(204)
   remove(@Param('id', ParseIntPipe) id: number): Promise<void> {

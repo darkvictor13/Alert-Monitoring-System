@@ -25,7 +25,7 @@ const Login: NextPage = () => {
       password: formData.get("password") as string,
     });
 
-    Router.push(`/${user.id}/test`);
+    Router.push(`/`);
   };
 
   return (

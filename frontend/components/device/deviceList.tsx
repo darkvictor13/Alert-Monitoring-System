@@ -21,16 +21,19 @@ import { formatDistanceToNow } from "date-fns";
 const DeviceList: NextPage<{ userId: number }> = ({ userId }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-
   const [devices, setDevices] = useState<IDevice[]>();
-
   const theme = useTheme();
 
-  useEffect(() => {
-    backendApi.get<IDevice[]>(`/device/user/${userId}`).then((response) => {
+  const fetchDevices = async () => {
+    const response = await backendApi.get<IDevice[]>(`/device/user/${userId}`);
+    if (response.data) {
       setDevices(response.data);
-    });
-  }, [userId, setDevices]);
+    }
+  };
+
+  useEffect(() => {
+    fetchDevices();
+  }, [userId]);
 
   return (
     <Box

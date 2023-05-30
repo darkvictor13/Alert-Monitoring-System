@@ -39,11 +39,15 @@ const TopTab: NextPage = () => {
     <>
       <Box
         sx={{
-          margin: "20px 25px 0px 0px",
+          padding: "20px 25px 0px 0px",
           display: "flex",
           alignItems: "center",
           textAlign: "center",
           justifyContent: "flex-end",
+          backgroundColor: (theme) =>
+            theme.palette.mode === "light"
+              ? theme.palette.grey[200]
+              : theme.palette.grey[900],
         }}
       >
         <MyMenuTabItem text="Home" route="/" />

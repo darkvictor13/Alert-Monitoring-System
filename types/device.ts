@@ -7,3 +7,8 @@ export interface IDevice {
   lastUpdatedAt: Date;
   user?: ISerializedUser | number;
 }
+
+export interface ICreateDevice {
+  name: string;
+  userId: number;
+}

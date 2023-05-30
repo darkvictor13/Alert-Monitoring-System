@@ -6,10 +6,12 @@ import {
   ParseIntPipe,
   UseGuards,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { AuthenticationGuard } from 'src/auth/guards/authentication.guard';
 import { NotificationService } from './notification.service';
 
 @Controller('notification')
+@ApiTags('notification')
 @UseGuards(AuthenticationGuard)
 export class NotificationController {
   constructor(private readonly notificationService: NotificationService) {}

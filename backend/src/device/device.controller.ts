@@ -18,8 +18,10 @@ import { CreateDeviceDto } from './dto/create-device.dto';
 import { UpdateDeviceDto } from './dto/update-device.dto';
 import { IDevice } from 'types/device';
 import { AuthenticationGuard } from 'src/auth/guards/authentication.guard';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('device')
+@ApiTags('device')
 @UseGuards(AuthenticationGuard)
 export class DeviceController {
   constructor(private readonly deviceService: DeviceService) {}

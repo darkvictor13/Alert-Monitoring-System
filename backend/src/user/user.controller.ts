@@ -21,8 +21,10 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthenticationGuard } from 'src/auth/guards/authentication.guard';
 import { plainToInstance } from 'class-transformer';
 import { SerializedUser } from './user.serialized';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('user')
+@ApiTags('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 

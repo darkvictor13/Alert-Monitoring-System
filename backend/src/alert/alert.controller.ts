@@ -9,12 +9,14 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { AlertService } from './alert.service';
 import { CreateAlertDto } from './dto/create-alert.dto';
 import { UpdateAlertDto } from './dto/update-alert.dto';
 import { Alert } from './entities/alert.entity';
 
 @Controller('alert')
+@ApiTags('alert')
 export class AlertController {
   constructor(private readonly alertService: AlertService) {}
 

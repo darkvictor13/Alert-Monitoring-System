@@ -1,13 +1,17 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsJSON, IsUUID } from 'class-validator';
-import { AlertType } from 'types/alert';
+import { AlertType, ICreateAlert } from 'types/alert';
 
-export class CreateAlertDto {
+export class CreateAlertDto implements ICreateAlert {
   @IsEnum(AlertType)
+  @ApiProperty()
   type: AlertType;
 
+  @ApiProperty()
   @IsUUID('all')
   deviceUuid: string;
 
+  @ApiProperty()
   @IsJSON()
   data: string;
 }

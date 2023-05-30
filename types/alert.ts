@@ -8,3 +8,9 @@ export interface AlertDataPresenceWithPhoto {
   size: number;
   buffer: string;
 }
+
+export interface ICreateAlert {
+  type: AlertType;
+  deviceUuid: string;
+  data: string;
+}

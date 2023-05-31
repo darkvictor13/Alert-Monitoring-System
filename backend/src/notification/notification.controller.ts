@@ -1,9 +1,10 @@
 import {
+  BadRequestException,
   Controller,
   DefaultValuePipe,
   Get,
-  Param,
   ParseIntPipe,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -16,16 +17,30 @@ import { NotificationService } from './notification.service';
 export class NotificationController {
   constructor(private readonly notificationService: NotificationService) {}
 
-  @Get(':id/:takeLimit?')
+  @Get()
   @ApiOperation({ summary: 'Get notifications by user id' })
   async getNotificationByUserId(
-    @Param('id', ParseIntPipe) userId: number,
-    @Param('takeLimit', new DefaultValuePipe(20), ParseIntPipe)
+    @Query('notificationId', new DefaultValuePipe(0), ParseIntPipe)
+    notificationId: number,
+    @Query('userId', new DefaultValuePipe(0), ParseIntPipe) userId: number,
+    @Query('takeLimit', new DefaultValuePipe(20), ParseIntPipe)
     takeLimit: number,
+    @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip: number,
   ) {
+    if (notificationId !== 0) {
+      return [
+        await this.notificationService.getNotificationById(notificationId),
+      ];
+    }
+    if (userId === 0) {
+      return new BadRequestException(
+        'Either notificationId or userId is required',
+      );
+    }
     return await this.notificationService.getNotificationByUserId(
       userId,
       takeLimit,
+      skip,
     );
   }
 }

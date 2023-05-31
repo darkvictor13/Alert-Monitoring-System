@@ -19,7 +19,7 @@ const NotificationList: NextPage<{ userId: number }> = ({ userId }) => {
     DEFAULT_NUMBER_OF_NOTIFICATIONS
   );
   const { data } = useSWRClient<INotification[]>(
-    `/notification/${userId}/${numberOfNotifications}`
+    `/notification?userId=${userId}&takeLimit=${numberOfNotifications}`
   );
 
   // just render the notifications and the load more button

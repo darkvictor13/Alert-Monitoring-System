@@ -24,16 +24,17 @@ const DeviceList: NextPage<{ userId: number }> = ({ userId }) => {
   const [devices, setDevices] = useState<IDevice[]>();
   const theme = useTheme();
 
-  const fetchDevices = async () => {
-    const response = await backendApi.get<IDevice[]>(`/device/user/${userId}`);
-    if (response.data) {
-      setDevices(response.data);
-    }
-  };
-
   useEffect(() => {
+    console.log("fetching devices");
+    function fetchDevices() {
+      backendApi.get<IDevice[]>(`/device/user/${userId}`).then((response) => {
+        if (response.data) {
+          setDevices(response.data);
+        }
+      });
+    }
     fetchDevices();
-  }, [userId]);
+  }, [userId, setDevices]);
 
   return (
     <Box

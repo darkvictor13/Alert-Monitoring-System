@@ -7,6 +7,7 @@ import {
 } from "../../../types/notification";
 import { formatDistanceToNow } from "date-fns";
 import { useEffect, useState } from "react";
+import Router from "next/router";
 
 const Notification: NextPage<{ notification: INotificationWithoutUser }> = ({
   notification,
@@ -49,6 +50,9 @@ const Notification: NextPage<{ notification: INotificationWithoutUser }> = ({
       }}
     >
       <Box
+        onClick={() => {
+          Router.push(`/notifications/${notification.id}`);
+        }}
         sx={{
           display: "flex",
           alignItems: "center",

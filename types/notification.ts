@@ -11,4 +11,5 @@ export interface INotification {
   generatedBy: string;
   text: string;
   createdAt: Date;
+  imageUrl?: string;
 }

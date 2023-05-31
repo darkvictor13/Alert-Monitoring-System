@@ -22,6 +22,7 @@ export class NotifyService {
   ): Promise<TelegramMessage> {
     try {
       console.log(`Sending photo to user ${sendToChatId}`);
+      console.log(`Size: ${photo.length}`);
       return this.telegram
         .sendPhoto({ chat_id: sendToChatId, photo, caption })
         .toPromise();

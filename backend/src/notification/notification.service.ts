@@ -32,6 +32,7 @@ export class NotificationService {
   async getNotificationByUserId(
     userId: number,
     takeLimit: number,
+    skip: number,
   ): Promise<Notification[]> {
     try {
       const rawNotifications = await this.notificationRepository
@@ -40,6 +41,7 @@ export class NotificationService {
         .orderBy('notification.created_at', 'DESC')
         .where('notification.userId = :userId', { userId })
         .take(takeLimit)
+        .skip(skip)
         .getRawMany();
 
       const notifications = rawNotifications.map((rawNotification) => {

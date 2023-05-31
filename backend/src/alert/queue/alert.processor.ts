@@ -82,10 +82,13 @@ export class AlertProcessor {
 
     const filename = this.AlertToFileName(alert);
     const alertData: AlertDataPresenceWithPhoto = JSON.parse(alert.data);
-    this.logger.log('data parsed');
     const photo = Buffer.from(alertData.buffer, 'base64');
-    const ret = this.fileService.writeFileSync(filename, photo);
-    this.logger.log(`Photo saved: ${ret}`);
+    this.fileService.writeFileSync(filename, photo);
+    await this.notifyService.sendTelegramPicture(
+      user.telegramId,
+      photo,
+      `Dispositivo ${alert.device.name} informa: ${text}`,
+    );
 
     return true;
   }

@@ -31,8 +31,6 @@ uint8_t echo_pin = 12;
 Camera camera;
 DistanceSensor distance_sensor(trigger_pin, echo_pin, 100);
 
-DynamicJsonDocument json_document(8192);
-
 //#define TEST_MODE
 
 void setup() {
@@ -40,10 +38,6 @@ void setup() {
   distance_sensor.setup();
 
 #ifndef TEST_MODE
-  json_document["type"] = 0;
-  json_document["deviceUuid"] = device_uuid;
-  json_document["data"] = "{}";
-
   WiFi.begin(wifi_network, wifi_password);
   if (WiFi.waitForConnectResult() != WL_CONNECTED) {
     ESP_LOGE(TAG, "WiFi Failed!");
@@ -52,38 +46,40 @@ void setup() {
   }
   ESP_LOGI(TAG, "WiFi connected!");
   camera.init();
-  http_client.begin(wifi_client, server_host, server_port, server_uri);
-  http_client.addHeader("Content-Type", "application/json");
 #endif
 }
 
 void loop() {
 #ifndef TEST_MODE
-  distance_sensor.waitUntil(true);
-  //{
-    auto picture = camera.takePicture();
-    const String encodedImg = base64::encode(picture->buf, picture->len);
-    String temp_json;
-    DynamicJsonDocument json_data(encodedImg.length() + 64);
-    json_data["buffer"] = encodedImg;
-    json_data["size"] = encodedImg.length();
-    serializeJson(json_data, temp_json);
-    ESP_LOGI(TAG, "JSON: %s", temp_json.c_str());
 
-    json_document["data"] = temp_json;
-  //}
+  distance_sensor.waitUntil(true);
+  String temp_json;
+  auto picture = camera.takePicture();
+  const String encodedImg = base64::encode(picture->buf, picture->len);
+  camera.freePicture(picture);
+
+  DynamicJsonDocument json_data(encodedImg.length() + 64);
+  json_data["size"] = encodedImg.length();
+  json_data["buffer"] = std::move(encodedImg);
+  serializeJson(json_data, temp_json);
+  ESP_LOGI(TAG, "TEMP JSON: %s, usage %d", temp_json.c_str(), json_data.memoryUsage());
+
+  DynamicJsonDocument json_document(json_data.memoryUsage() + 128);
+  json_data.clear();
+  json_document["type"] = 1;
+  json_document["deviceUuid"] = device_uuid;
+  json_document["data"].set(std::move(temp_json));
+
   String json_string;
   serializeJson(json_document, json_string);
+  json_document.clear();
   ESP_LOGI(TAG, "JSON Final: %s", json_string.c_str());
 
-  
-  //http_client.setReuse(true);
-  
-  // pq q essa porcaria de lib ta fazendo copia da minha string gigante???
+  http_client.begin(wifi_client, server_host, server_port, server_uri);
+  http_client.addHeader("Content-Type", "application/json");
   const int ret = http_client.POST(json_string);
   ESP_LOGI(TAG, "HTTP POST return code: %d", ret);
-  //http_client.end();
-  camera.freePicture(picture);
+  http_client.end();
   delay(1000);
 
   distance_sensor.waitUntil(false);

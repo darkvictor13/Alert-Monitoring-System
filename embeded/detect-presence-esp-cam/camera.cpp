@@ -31,7 +31,7 @@ void Camera::setDefaultConfig() {
   config.xclk_freq_hz = 20000000;
   config.pixel_format = PIXFORMAT_JPEG;
 
-  config.frame_size = FRAMESIZE_QVGA;
+  config.frame_size = FRAMESIZE_SVGA;
   config.jpeg_quality = 20;  //0-63 lower number means higher quality
   config.fb_count = 1;
 }
@@ -41,9 +41,9 @@ void Camera::init() {
   ESP_LOGI(TAG, "Err: %d", err);
   is_initialized = (err == ESP_OK);
   ESP_ERROR_CHECK(err);
-  sensor_t* sensor = esp_camera_sensor_get();
+  //sensor_t* sensor = esp_camera_sensor_get();
   //sensor->set_whitebal(sensor, 0);
-  sensor->set_special_effect(sensor, 2);  //grayscale
+  //sensor->set_special_effect(sensor, 2);  //grayscale
 }
 
 camera_fb_t* Camera::takePicture() {

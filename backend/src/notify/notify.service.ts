@@ -17,7 +17,7 @@ export class NotifyService {
 
   sendTelegramPicture(
     sendToChatId: string,
-    photo: string,
+    photo: string | Buffer,
     caption: string,
   ): Promise<TelegramMessage> {
     try {

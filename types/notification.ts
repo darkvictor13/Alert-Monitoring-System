@@ -1,8 +1,13 @@
+import { AlertType } from "./alert";
+
 export interface INotificationWithoutUser {
   id: number;
   generatedBy: string;
   text: string;
   createdAt: Date;
+  type: AlertType;
+  alertId: number;
+  imagePath?: string;
 }
 
 export interface INotification {
@@ -11,5 +16,7 @@ export interface INotification {
   generatedBy: string;
   text: string;
   createdAt: Date;
-  imageUrl?: string;
+  type: AlertType;
+  alertId: number;
+  imagePath?: string;
 }

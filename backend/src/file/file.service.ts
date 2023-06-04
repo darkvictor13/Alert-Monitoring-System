@@ -19,9 +19,10 @@ export class FileService {
   getFile(filename: string): string {
     try {
       const rs = createReadStream(filename);
-      return rs.toString();
+      return rs.read().toString();
     } catch (e) {
       this.logger.error(e);
+      return null;
     }
   }
 }

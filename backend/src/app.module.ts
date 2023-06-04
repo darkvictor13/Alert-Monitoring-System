@@ -14,9 +14,14 @@ import { AlertModule } from './alert/alert.module';
 import { BullModule } from '@nestjs/bull';
 import { NotificationModule } from './notification/notification.module';
 import { FileModule } from './file/file.module';
+import { join } from 'path';
+import { ServeStaticModule } from '@nestjs/serve-static';
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'photos'),
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['docker/.env', '.env'],

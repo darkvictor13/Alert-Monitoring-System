@@ -18,11 +18,17 @@ const NotificationList: NextPage<{ userId: number }> = ({ userId }) => {
   const [numberOfNotifications, setNumberOfNotifications] = useState(
     DEFAULT_NUMBER_OF_NOTIFICATIONS
   );
-  const { data } = useSWRClient<INotification[]>(
+  const { data, isLoading } = useSWRClient<INotification[]>(
     `/notification?userId=${userId}&takeLimit=${numberOfNotifications}`
   );
 
-  // just render the notifications and the load more button
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  console.log("length", data?.length);
+  console.log("numberOfNotifications", numberOfNotifications);
+
   const renderNotifications = () => {
     return (
       <Box
@@ -37,22 +43,24 @@ const NotificationList: NextPage<{ userId: number }> = ({ userId }) => {
         {data?.map((notification) => (
           <Notification key={notification.id} notification={notification} />
         ))}
-        <Button
-          onClick={() =>
-            setNumberOfNotifications(
-              numberOfNotifications + INCREMENT_NUMBER_OF_NOTIFICATIONS
-            )
-          }
-          variant="contained"
-          color="primary"
-          sx={{
-            fontWeight: "bold",
-            textTransform: "none",
-            marginBottom: "20px",
-          }}
-        >
-          Load More
-        </Button>
+        {(data?.length || 0) == numberOfNotifications && (
+          <Button
+            onClick={() =>
+              setNumberOfNotifications(
+                numberOfNotifications + INCREMENT_NUMBER_OF_NOTIFICATIONS
+              )
+            }
+            variant="contained"
+            color="primary"
+            sx={{
+              fontWeight: "bold",
+              textTransform: "none",
+              marginBottom: "20px",
+            }}
+          >
+            Load More
+          </Button>
+        )}
       </Box>
     );
   };

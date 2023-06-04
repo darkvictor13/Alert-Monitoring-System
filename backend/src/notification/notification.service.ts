@@ -50,6 +50,9 @@ export class NotificationService {
         notification.text = rawNotification.text;
         notification.generatedBy = rawNotification.generated_by;
         notification.createdAt = rawNotification.created_at;
+        notification.type = rawNotification.type;
+        notification.imagePath = rawNotification.image_path;
+        notification.alertId = rawNotification.alert_id;
         return notification;
       });
 

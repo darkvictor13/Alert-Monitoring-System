@@ -59,13 +59,6 @@ export class AlertProcessor {
     }
 
     const text = this.alertTypeToText(alert.type);
-    const createNotificationDto: CreateNotificationDto = {
-      user,
-      generatedBy: alert.device.name,
-      text,
-    };
-    await this.notificationService.createNotification(createNotificationDto);
-    this.logger.log('Notification created');
 
     /*
     const alertData: AlertDataPresenceWithPhoto = JSON.parse(alert.data);
@@ -84,12 +77,23 @@ export class AlertProcessor {
     const alertData: AlertDataPresenceWithPhoto = JSON.parse(alert.data);
     const photo = Buffer.from(alertData.buffer, 'base64');
     this.fileService.writeFileSync(filename, photo);
+
+    const createNotificationDto: CreateNotificationDto = {
+      user,
+      generatedBy: alert.device.name,
+      text,
+      type: alert.type,
+      alertId: alert.id,
+      imagePath: `${alert.id}.jpg`,
+    };
+    await this.notificationService.createNotification(createNotificationDto);
+    this.logger.log('Notification created');
+
     await this.notifyService.sendTelegramPicture(
       user.telegramId,
       photo,
       `Dispositivo ${alert.device.name} informa: ${text}`,
     );
-
     return true;
   }
 
@@ -106,6 +110,8 @@ export class AlertProcessor {
       user,
       generatedBy: alert.device.name,
       text,
+      type: alert.type,
+      alertId: alert.id,
     };
     this.notificationService.createNotification(createNotificationDto);
     await this.notifyService.sendTelegramNotification(

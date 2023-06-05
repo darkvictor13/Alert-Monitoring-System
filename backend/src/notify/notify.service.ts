@@ -17,12 +17,13 @@ export class NotifyService {
 
   sendTelegramPicture(
     sendToChatId: string,
-    photo: string | Buffer,
+    photo: Buffer,
     caption: string,
   ): Promise<TelegramMessage> {
     try {
-      console.log(`Sending photo to user ${sendToChatId}`);
-      console.log(`Size: ${photo.length}`);
+      const base64 = photo.toString('base64');
+      console.log(`base64: ${base64}`);
+      console.log(`length: ${base64.length}`);
       return this.telegram
         .sendPhoto({ chat_id: sendToChatId, photo, caption })
         .toPromise();

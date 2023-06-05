@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { createWriteStream, createReadStream } from 'fs';
+import { createWriteStream, readFileSync } from 'fs';
 
 @Injectable()
 export class FileService {
@@ -16,13 +16,7 @@ export class FileService {
     }
   }
 
-  getFile(filename: string): string {
-    try {
-      const rs = createReadStream(filename);
-      return rs.read().toString();
-    } catch (e) {
-      this.logger.error(e);
-      return null;
-    }
+  getFile(filename: string): Buffer {
+    return readFileSync(filename);
   }
 }

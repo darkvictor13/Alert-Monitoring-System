@@ -89,9 +89,20 @@ export class AlertProcessor {
     await this.notificationService.createNotification(createNotificationDto);
     this.logger.log('Notification created');
 
-    await this.notifyService.sendTelegramPicture(
+    /*
+    Nao funciona, pelo jeito a lib nao suporta mandar imagens
+    try {
+      await this.notifyService.sendTelegramPicture(
+        user.telegramId,
+        this.fileService.getFile(filename),
+        `Dispositivo ${alert.device.name} informa: ${text}`,
+      );
+    } catch (e) {
+      this.logger.error(`Error sending photo: ${e}`);
+    }
+    */
+    await this.notifyService.sendTelegramNotification(
       user.telegramId,
-      photo,
       `Dispositivo ${alert.device.name} informa: ${text}`,
     );
     return true;

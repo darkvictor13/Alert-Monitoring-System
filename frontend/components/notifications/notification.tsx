@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { Announcement } from "@mui/icons-material";
 import {
   Box,
@@ -157,7 +158,7 @@ const Notification: NextPage<{ notification: INotificationWithoutUser }> = ({
             p: 4,
           }}
         >
-          <Typography variant="h3" mb="24px" textAlign="center">
+          <Typography variant="h4" mb="24px" textAlign="center">
             {generateTitle()}
           </Typography>
           <TableContainer component={Paper}>
@@ -181,21 +182,21 @@ const Notification: NextPage<{ notification: INotificationWithoutUser }> = ({
                   alignItems: "center",
                   justifyContent: "center",
                   flexDirection: "column",
+                  marginBottom: "10px",
                 }}
               >
                 <Typography variant="h6" mt="24px">
                   Foto do alerta
                 </Typography>
-                <Image
-                  src={url}
-                  alt="Foto do alerta"
-                  width={300}
-                  height={300}
-                />
+                <img src={url} alt="Foto do alerta" />
               </Box>
             )}
           </TableContainer>
-          <Button variant="contained" onClick={handleClose}>
+          <Button
+            variant="contained"
+            onClick={handleClose}
+            sx={{ marginTop: "10px" }}
+          >
             Close
           </Button>
         </Box>

@@ -68,7 +68,7 @@ const BaseUserForm: NextPage<IPropsBaseUserForm> = ({
             <Box sx={{ display: "flex", flexDirection: "row" }}>
               <TextField
                 margin="normal"
-                value={user?.firstName}
+                defaultValue={user?.firstName}
                 required
                 fullWidth
                 name="firstName"
@@ -79,7 +79,7 @@ const BaseUserForm: NextPage<IPropsBaseUserForm> = ({
               />
               <TextField
                 margin="normal"
-                value={user?.lastName}
+                defaultValue={user?.lastName}
                 required
                 fullWidth
                 name="lastName"
@@ -91,7 +91,7 @@ const BaseUserForm: NextPage<IPropsBaseUserForm> = ({
             </Box>
             <TextField
               margin="normal"
-              value={user?.email}
+              defaultValue={user?.email}
               required
               fullWidth
               id="email"
@@ -100,28 +100,30 @@ const BaseUserForm: NextPage<IPropsBaseUserForm> = ({
               autoComplete="email"
               autoFocus
             />
-            <Box sx={{ display: "flex", flexDirection: "row" }}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="confirm password"
-                label="Confirm Password"
-                type="password"
-                id="confirmPassword"
-                autoComplete="current-password"
-              />
-            </Box>
+            {isCreate && (
+              <Box sx={{ display: "flex", flexDirection: "row" }}>
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="confirm password"
+                  label="Confirm Password"
+                  type="password"
+                  id="confirmPassword"
+                  autoComplete="current-password"
+                />
+              </Box>
+            )}
             <MuiPhoneNumber
               defaultCountry={"br"}
               value={phone}

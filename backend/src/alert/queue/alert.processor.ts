@@ -101,10 +101,12 @@ export class AlertProcessor {
       this.logger.error(`Error sending photo: ${e}`);
     }
     */
-    await this.notifyService.sendTelegramNotification(
-      user.telegramId,
-      `Dispositivo ${alert.device.name} informa: ${text}`,
-    );
+    if (user.telegramId) {
+      await this.notifyService.sendTelegramNotification(
+        user.telegramId,
+        `Dispositivo ${alert.device.name} informa: ${text}`,
+      );
+    }
     return true;
   }
 
@@ -125,10 +127,12 @@ export class AlertProcessor {
       alertId: alert.id,
     };
     this.notificationService.createNotification(createNotificationDto);
-    await this.notifyService.sendTelegramNotification(
-      user.telegramId,
-      `Dispositivo ${alert.device.name} informa: ${text}`,
-    );
+    if (user.telegramId) {
+      await this.notifyService.sendTelegramNotification(
+        user.telegramId,
+        `Dispositivo ${alert.device.name} informa: ${text}`,
+      );
+    }
     return true;
   }
 

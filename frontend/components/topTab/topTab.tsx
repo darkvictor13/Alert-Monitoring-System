@@ -105,10 +105,7 @@ const TopTab: NextPage = () => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={handleClose}>
-          <Avatar /> Profile
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={() => Router.push("/updateAccount")}>
           <Avatar /> My account
         </MenuItem>
         <Divider />

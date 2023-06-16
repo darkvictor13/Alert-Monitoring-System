@@ -32,7 +32,6 @@ const DeviceList: NextPage<{ userId: number }> = ({ userId }) => {
   //const [devices, setDevices] = useState<IDevice[]>();
   const theme = useTheme();
 
-  // useSWR to get the devices
   const { data, isLoading, mutateAndRefetch } = useSWRClient<IDevice[]>(
     `/device/user/${userId}`
   );
@@ -87,7 +86,12 @@ const DeviceList: NextPage<{ userId: number }> = ({ userId }) => {
             id="name"
             autoComplete="current-device-name"
           />
-          <Button startIcon={<Send />} variant="contained" type="submit">
+          <Button
+            startIcon={<Send />}
+            variant="contained"
+            type="submit"
+            sx={{ alignSelf: "flex-end", marginTop: "20px" }}
+          >
             Create
           </Button>
         </Box>

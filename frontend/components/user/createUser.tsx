@@ -63,7 +63,8 @@ const CreateUser: NextPage = () => {
         <DialogContent dividers>
           <DialogContentText id="alert-dialog-slide-description">
             Para receber os alertas gerados por essa aplicação no Telegram, é
-            necessário enviar uma mensagem para nosso bot alert_bot.
+            necessário enviar uma mensagem para nosso bot alert_bot. Depois de
+            conseguir seu id com ele, basta atualizar o usuário.
           </DialogContentText>
         </DialogContent>
         <DialogActions>

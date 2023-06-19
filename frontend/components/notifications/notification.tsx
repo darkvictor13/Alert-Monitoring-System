@@ -156,6 +156,8 @@ const Notification: NextPage<{ notification: INotificationWithoutUser }> = ({
             border: "2px solid #000",
             boxShadow: 24,
             p: 4,
+            maxHeight: "90vh",
+            overflowY: "auto",
           }}
         >
           <Typography variant="h4" mb="24px" textAlign="center">
@@ -195,7 +197,7 @@ const Notification: NextPage<{ notification: INotificationWithoutUser }> = ({
           <Button
             variant="contained"
             onClick={handleClose}
-            sx={{ marginTop: "10px" }}
+            sx={{ marginTop: "10px", selfAlign: "flex-end" }}
           >
             Close
           </Button>

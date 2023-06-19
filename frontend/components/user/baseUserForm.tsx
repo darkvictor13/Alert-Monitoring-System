@@ -30,6 +30,7 @@ const BaseUserForm: NextPage<IPropsBaseUserForm> = ({
       password: formData.get("password") as string,
       firstName: formData.get("firstName") as string,
       lastName: formData.get("lastName") as string,
+      telegramId: formData.get("telegramId") as string,
     };
     if (phone) {
       payload.phoneNumber = phone;
@@ -124,11 +125,25 @@ const BaseUserForm: NextPage<IPropsBaseUserForm> = ({
                 />
               </Box>
             )}
-            <MuiPhoneNumber
-              defaultCountry={"br"}
-              value={phone}
-              onChange={(e) => setPhone(e.toString())}
-            />
+
+            <Box sx={{ display: "flex", flexDirection: "row" }}>
+              <MuiPhoneNumber
+                defaultCountry={"br"}
+                value={phone}
+                onChange={(e) => setPhone(e.toString())}
+              />
+              {!isCreate && (
+                <TextField
+                  margin="normal"
+                  name="telegramId"
+                  label="Telegram Id"
+                  type="text"
+                  id="telegramId"
+                  autoComplete="current-telegramId"
+                  defaultValue={user?.telegramId}
+                />
+              )}
+            </Box>
             <Box
               sx={{
                 display: "flex",

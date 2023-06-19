@@ -41,12 +41,20 @@ const UpdateUser: NextPage = () => {
         if (updateUser.phoneNumber !== user.phoneNumber) {
           payload.phoneNumber = updateUser.phoneNumber;
         }
+        if (updateUser.telegramId !== user.telegramId) {
+          payload.telegramId = updateUser.telegramId;
+        }
+
+        console.log(payload);
 
         if (Object.keys(payload).length === 0) {
           return;
         }
 
-        await backendApi.patch(`/user/${user.id}`, payload);
+        console.log("passei pelo check");
+
+        await backendApi.patch(`/user/${user.id}`, JSON.stringify(payload));
+        console.log("passei pelo patch");
         setLocalStorageLoggedUser({
           ...user,
           ...payload,

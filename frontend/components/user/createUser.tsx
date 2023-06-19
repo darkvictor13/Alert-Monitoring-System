@@ -40,15 +40,18 @@ const CreateUser: NextPage = () => {
           if (!createUser.email || !createUser.password) {
             throw new Error("Email and password are required to create user");
           }
-          setOpenDialog(true);
-          await backendApi.post<ICreateUser>(
+          const response = await backendApi.post<ICreateUser>(
             "/user",
             JSON.stringify(createUser)
           );
+          if (response.status !== 201) {
+            throw new Error("Error creating user");
+          }
           await login({
             email: createUser.email,
             password: createUser.password,
           });
+          setOpenDialog(true);
         }}
       />
       <Dialog

@@ -126,11 +126,17 @@ const BaseUserForm: NextPage<IPropsBaseUserForm> = ({
               </Box>
             )}
 
-            <Box sx={{ display: "flex", flexDirection: "row" }}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+              }}
+            >
               <MuiPhoneNumber
                 defaultCountry={"br"}
                 value={phone}
                 onChange={(e) => setPhone(e.toString())}
+                sx={{ alignSelf: "center" }}
               />
               {!isCreate && (
                 <TextField
